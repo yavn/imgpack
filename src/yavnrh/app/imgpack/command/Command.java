@@ -16,24 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package yavnrh.app.imgpack;
+package yavnrh.app.imgpack.command;
 
-public class Main {
-
-	public static void main(String[] args) {
-		CommandProcessor cp = new CommandProcessor(args);
-		cp.process();
-	}
-
-	public static void log(Object... objs) {
-		System.out.println(concatenate(objs));
+public abstract class Command {
+	protected String command;
+	
+	public Command(String command) {
+		this.command = command;
 	}
 	
-	public static String concatenate(Object... objs) {
-		StringBuilder sb = new StringBuilder();
-		for (Object o : objs) {
-			sb.append(o.toString());
-		}
-		return sb.toString();
-	}	
+	public boolean matches(String command) {
+		return this.command.equals(command);
+	}
+	
+	public String help() {
+		return command + " - no help available.";
+	}
+
+	public abstract void execute();	
 }

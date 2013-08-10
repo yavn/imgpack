@@ -16,24 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package yavnrh.app.imgpack;
+package yavnrh.app.imgpack.command;
 
-public class Main {
+import yavnrh.app.imgpack.Main;
 
-	public static void main(String[] args) {
-		CommandProcessor cp = new CommandProcessor(args);
-		cp.process();
+public class CommandAddImage extends Command {
+
+	public CommandAddImage() {
+		super("add");
 	}
 
-	public static void log(Object... objs) {
-		System.out.println(concatenate(objs));
+	@Override
+	public void execute() {
+		throw new RuntimeException("Command not yet implemented.");
 	}
 	
-	public static String concatenate(Object... objs) {
-		StringBuilder sb = new StringBuilder();
-		for (Object o : objs) {
-			sb.append(o.toString());
-		}
-		return sb.toString();
-	}	
+	@Override
+	public String help() {
+		return Main.concatenate("  ", command, " <file> - add an image to the atlas.");
+	}
 }

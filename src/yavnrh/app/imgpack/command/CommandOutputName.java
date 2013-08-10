@@ -16,24 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package yavnrh.app.imgpack;
+package yavnrh.app.imgpack.command;
 
-public abstract class Command {
+import yavnrh.app.imgpack.Main;
 
-	protected String command;
-	
-	public Command(String command) {
-		this.command = command;
+public class CommandOutputName extends Command {
+
+	public CommandOutputName() {
+		super("name");
+	}
+
+	@Override
+	public void execute() {
+		throw new RuntimeException("Command not yet implemented.");
 	}
 	
-	public boolean matches(String command) {
-		return this.command.equals(command);
-	}
-	
+	@Override
 	public String help() {
-		return command + " - no help available.";
+		return Main.concatenate("  ", command, " <name> - name of the output texture atlas files.");
 	}
-
-	public abstract void execute();
-	
 }
