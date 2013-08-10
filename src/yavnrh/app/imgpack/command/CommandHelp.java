@@ -20,6 +20,7 @@ package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Main;
+import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class CommandHelp extends Command {
 	private CommandProcessor cp;
@@ -37,7 +38,7 @@ public class CommandHelp extends Command {
 			try {
 				Command cmd = cp.decodeCommand(arg);
 				Main.log(cmd.help());
-			} catch (Exception ex) {
+			} catch (InvalidCommandException ex) {
 				Main.log("Help: unrecognized command ", arg);
 			}
 		} else {

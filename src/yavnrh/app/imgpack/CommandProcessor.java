@@ -26,6 +26,7 @@ import yavnrh.app.imgpack.command.CommandAddImage;
 import yavnrh.app.imgpack.command.CommandHelp;
 import yavnrh.app.imgpack.command.CommandOutputName;
 import yavnrh.app.imgpack.command.CommandOutputSize;
+import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class CommandProcessor {
 	private ImagePacker imagePacker;
@@ -101,7 +102,7 @@ public class CommandProcessor {
 				return cmd;
 			}
 		}
-		throw new RuntimeException("Invalid command " + commandString);
+		throw new InvalidCommandException("Invalid command " + commandString);
 	}
 
 	public Command[] getCommands() {

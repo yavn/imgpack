@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import yavnrh.app.imgpack.CommandProcessor;
+import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class CommandTests {
 
@@ -68,5 +69,16 @@ public class CommandTests {
 	public void testHelpHelp() {
 		runWithCommandLine("-help help");
 		assertEquals("  help <command> - print help for a command.\n", out.toString());
+	}
+	
+	@Test(expected = InvalidCommandException.class)
+	public void testInvalidCommand() {
+		runWithCommandLine("-dupa");
+	}
+	
+	@Test
+	public void testGarbageArguments() {
+		runWithCommandLine("cows from space");
+		assertTrue(out.toString().startsWith("Ignored argument:"));
 	}
 }
