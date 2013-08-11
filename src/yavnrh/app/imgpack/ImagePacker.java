@@ -27,6 +27,8 @@ public class ImagePacker {
 	private String outputImageName;
 	private int outputImageWidth;
 	private int outputImageHeight;
+	private boolean overwriteOutputName;
+	
 	private LinkedHashSet<String> images;
 	
 	public ImagePacker() {
@@ -34,6 +36,7 @@ public class ImagePacker {
 		outputImageName = "atlas";
 		outputImageWidth = 1024;
 		outputImageHeight = 1024;
+		overwriteOutputName = false;
 	}
 	
 	public String getOutputImageName() {
@@ -75,5 +78,13 @@ public class ImagePacker {
 
 	private boolean isNewImage(String image) {
 		return !images.contains(image);
+	}
+
+	public boolean getOverwriteOutputImage() {
+		return overwriteOutputName;
+	}
+
+	public void setOverwriteOutputName(boolean b) {
+		overwriteOutputName = b;
 	}
 }

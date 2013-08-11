@@ -26,6 +26,7 @@ import yavnrh.app.imgpack.command.CommandAddImage;
 import yavnrh.app.imgpack.command.CommandHelp;
 import yavnrh.app.imgpack.command.CommandOutputName;
 import yavnrh.app.imgpack.command.CommandOutputSize;
+import yavnrh.app.imgpack.command.CommandOverwriteOutputName;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class CommandProcessor {
@@ -52,6 +53,7 @@ public class CommandProcessor {
 		commands.add(new CommandOutputName(this, imagePacker));
 		commands.add(new CommandOutputSize(this, imagePacker));
 		commands.add(new CommandAddImage(this, imagePacker));
+		commands.add(new CommandOverwriteOutputName(imagePacker));
 		// spacing
 		// border
 		// crop

@@ -19,6 +19,7 @@
 package yavnrh.app.imgpack.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -106,6 +107,20 @@ public class CommandTests {
 	}
 
 	@Test
+	public void testOverwriteOutputName() {
+		runWithCommandLine("-overwrite");
+		
+		assertTrue(ip.getOverwriteOutputImage());
+	}
+
+	@Test
+	public void testOverwriteOutputNameShouldBeFalseByDefault() {
+		runWithCommandLine("");
+		
+		assertFalse(ip.getOverwriteOutputImage());
+	}
+
+	@Test
 	public void testOutputSize() {
 		runWithCommandLine("-size 512 256");
 		
@@ -141,4 +156,5 @@ public class CommandTests {
 		assertTrue(images.contains("image02.png"));
 		assertTrue(images.contains("image03.png"));
 	}
+	
 }
