@@ -32,6 +32,7 @@ public class ImagePacker {
 	private LinkedHashSet<String> images;
 	private int spacing;
 	private int border;
+	private boolean crop;
 	
 	public ImagePacker() {
 		images = new LinkedHashSet<String>();
@@ -43,6 +44,7 @@ public class ImagePacker {
 		
 		spacing = 0;
 		border = 0;
+		crop = false;
 	}
 	
 	public String getOutputName() {
@@ -108,5 +110,13 @@ public class ImagePacker {
 	
 	public int getBorder() {
 		return border;
+	}
+
+	public void setCrop(boolean b) {
+		crop = b;
+	}
+	
+	public boolean getCrop() {
+		return crop;
 	}
 }

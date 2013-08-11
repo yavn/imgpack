@@ -183,5 +183,19 @@ public class CommandTests {
 		runWithCommandLine("");
 		
 		assertEquals(0, ip.getBorder());
-	}	
+	}
+	
+	@Test
+	public void testCrop() {
+		runWithCommandLine("-crop");
+		
+		assertTrue(ip.getCrop());
+	}
+
+	@Test
+	public void testCropShouldBeFalseByDefault() {
+		runWithCommandLine("");
+		
+		assertFalse(ip.getCrop());
+	}
 }

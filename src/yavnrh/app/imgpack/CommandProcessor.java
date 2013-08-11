@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import yavnrh.app.imgpack.command.Command;
 import yavnrh.app.imgpack.command.CommandAddImage;
 import yavnrh.app.imgpack.command.CommandBorder;
+import yavnrh.app.imgpack.command.CommandCrop;
 import yavnrh.app.imgpack.command.CommandHelp;
 import yavnrh.app.imgpack.command.CommandOutputName;
 import yavnrh.app.imgpack.command.CommandOutputSize;
@@ -57,8 +58,8 @@ public class CommandProcessor {
 		commands.add(new CommandAddImage(this, imagePacker));
 		commands.add(new CommandSpacing(this, imagePacker));
 		commands.add(new CommandBorder(this, imagePacker));
+		commands.add(new CommandCrop(imagePacker));
 		commands.add(new CommandOverwriteOutput(imagePacker));
-		// crop
 		// method
 	}
 	
