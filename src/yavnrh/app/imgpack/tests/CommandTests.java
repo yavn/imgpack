@@ -35,6 +35,7 @@ import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.ImagePacker;
 import yavnrh.app.imgpack.exception.DuplicateImageException;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
+import yavnrh.app.imgpack.exception.InvalidPackingMethodException;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandTests {
@@ -158,6 +159,17 @@ public class CommandTests {
 	}
 	
 	@Test
+	public void testAddImagesPreservesOrder() {
+		runWithCommandLine("-add monkey.png -add apple.png -add pear.png -add elephant.png");
+		String[] images = ip.getImages();
+		
+		assertEquals("monkey.png", images[0]);
+		assertEquals("apple.png", images[1]);
+		assertEquals("pear.png", images[2]);
+		assertEquals("elephant.png", images[3]);
+	}
+	
+	@Test
 	public void testSpacing() {
 		runWithCommandLine("-spacing 4");
 		
@@ -197,5 +209,31 @@ public class CommandTests {
 		runWithCommandLine("");
 		
 		assertFalse(ip.getCrop());
+	}
+	
+	@Test
+	public void testMethodGrid() {
+		runWithCommandLine("-method grid");
+		
+		assertEquals(ImagePacker.PackingMethod.GRID, ip.getMethod());
+	}
+
+	@Test
+	public void testMethodBinaryTree() {
+		runWithCommandLine("-method bintree");
+		
+		assertEquals(ImagePacker.PackingMethod.BINARY_TREE, ip.getMethod());
+	}
+	
+	@Test
+	public void testMethodShouldBeBinaryTreeByDefault() {
+		runWithCommandLine("");
+		
+		assertEquals(ImagePacker.PackingMethod.BINARY_TREE, ip.getMethod());
+	}
+	
+	@Test(expected = InvalidPackingMethodException.class)
+	public void testInvalidMethod() {
+		runWithCommandLine("-method derp");
 	}
 }

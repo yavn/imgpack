@@ -24,6 +24,11 @@ import yavnrh.app.imgpack.exception.DuplicateImageException;
 
 public class ImagePacker {
 
+	public static enum PackingMethod {
+		BINARY_TREE,
+		GRID,
+	};
+		
 	private String outputName;
 	private int outputWidth;
 	private int outputHeight;
@@ -33,6 +38,7 @@ public class ImagePacker {
 	private int spacing;
 	private int border;
 	private boolean crop;
+	private PackingMethod method;
 	
 	public ImagePacker() {
 		images = new LinkedHashSet<String>();
@@ -45,6 +51,7 @@ public class ImagePacker {
 		spacing = 0;
 		border = 0;
 		crop = false;
+		method = PackingMethod.BINARY_TREE;
 	}
 	
 	public String getOutputName() {
@@ -118,5 +125,13 @@ public class ImagePacker {
 	
 	public boolean getCrop() {
 		return crop;
+	}
+	
+	public void setMethod(PackingMethod method) {
+		this.method = method;
+	}
+
+	public PackingMethod getMethod() {
+		return method;
 	}
 }

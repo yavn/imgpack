@@ -26,6 +26,7 @@ import yavnrh.app.imgpack.command.CommandAddImage;
 import yavnrh.app.imgpack.command.CommandBorder;
 import yavnrh.app.imgpack.command.CommandCrop;
 import yavnrh.app.imgpack.command.CommandHelp;
+import yavnrh.app.imgpack.command.CommandMethod;
 import yavnrh.app.imgpack.command.CommandOutputName;
 import yavnrh.app.imgpack.command.CommandOutputSize;
 import yavnrh.app.imgpack.command.CommandOverwriteOutput;
@@ -59,8 +60,8 @@ public class CommandProcessor {
 		commands.add(new CommandSpacing(this, imagePacker));
 		commands.add(new CommandBorder(this, imagePacker));
 		commands.add(new CommandCrop(imagePacker));
+		commands.add(new CommandMethod(this, imagePacker));
 		commands.add(new CommandOverwriteOutput(imagePacker));
-		// method
 	}
 	
 	public void start() {
