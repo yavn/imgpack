@@ -40,7 +40,7 @@ public class CommandSpacing extends Command {
 		
 		validateArgument(spacingString);
 		
-		ip.setImageSpacing(Integer.parseInt(spacingString));
+		ip.setSpacing(Integer.parseInt(spacingString));
 	}
 
 	private void validateArgument(String arg) {

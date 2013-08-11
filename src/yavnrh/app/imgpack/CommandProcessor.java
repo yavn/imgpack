@@ -23,10 +23,11 @@ import java.util.LinkedList;
 
 import yavnrh.app.imgpack.command.Command;
 import yavnrh.app.imgpack.command.CommandAddImage;
+import yavnrh.app.imgpack.command.CommandBorder;
 import yavnrh.app.imgpack.command.CommandHelp;
 import yavnrh.app.imgpack.command.CommandOutputName;
 import yavnrh.app.imgpack.command.CommandOutputSize;
-import yavnrh.app.imgpack.command.CommandOverwriteOutputName;
+import yavnrh.app.imgpack.command.CommandOverwriteOutput;
 import yavnrh.app.imgpack.command.CommandSpacing;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
 
@@ -55,8 +56,8 @@ public class CommandProcessor {
 		commands.add(new CommandOutputSize(this, imagePacker));
 		commands.add(new CommandAddImage(this, imagePacker));
 		commands.add(new CommandSpacing(this, imagePacker));
-		commands.add(new CommandOverwriteOutputName(imagePacker));
-		// border
+		commands.add(new CommandBorder(this, imagePacker));
+		commands.add(new CommandOverwriteOutput(imagePacker));
 		// crop
 		// method
 	}

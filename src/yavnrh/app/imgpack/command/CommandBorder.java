@@ -23,40 +23,34 @@ import yavnrh.app.imgpack.ImagePacker;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
-public class CommandOutputSize extends Command {
+public class CommandBorder extends Command {
 
-	private CommandProcessor cp;
 	private ImagePacker ip;
-
-	public CommandOutputSize(CommandProcessor cp, ImagePacker ip) {
-		super("size");
+	private CommandProcessor cp;
+	
+	public CommandBorder(CommandProcessor cp, ImagePacker ip) {
+		super("border");
 		this.cp = cp;
 		this.ip = ip;
 	}
 
 	@Override
 	public void execute() {
-		String widthString = cp.nextArg();
-		String heightString = cp.nextArg();
+		String borderString = cp.nextArg();
 		
-		validateArguments(widthString, heightString);
+		validateArgument(borderString);
 		
-		ip.setOutputWidth(Integer.parseInt(widthString));
-		ip.setOutputHeight(Integer.parseInt(heightString));
+		ip.setBorder(Integer.parseInt(borderString));
 	}
 
-	private void validateArguments(String widthString, String heightString) {
-		if (widthString == null) {
-			throw new MissingArgumentException("No width specified");
-		}
-		
-		if (heightString == null) {
-			throw new MissingArgumentException("No height specified");
+	private void validateArgument(String arg) {
+		if (arg == null) {
+			throw new MissingArgumentException("No border value specified");
 		}
 	}
 	
 	@Override
 	public String help() {
-		return Main.concatenate("  ", command, " <width> <height> - size of the output texture image (in pixels).");
+		return Main.concatenate("  ", command, " <value> - minimal distance in pixels between images and the edges of the texture.");
 	}
 }

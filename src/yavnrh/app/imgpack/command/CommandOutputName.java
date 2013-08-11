@@ -40,7 +40,7 @@ public class CommandOutputName extends Command {
 		
 		validateArgument(outputName);
 		
-		ip.setOutputImageName(outputName);
+		ip.setOutputName(outputName);
 	}
 
 	private void validateArgument(String outputName) {

@@ -98,7 +98,7 @@ public class CommandTests {
 	public void testOutputName() {
 		runWithCommandLine("-name output");
 		
-		assertEquals("output", ip.getOutputImageName());
+		assertEquals("output", ip.getOutputName());
 	}
 	
 	@Test(expected = MissingArgumentException.class)
@@ -107,25 +107,25 @@ public class CommandTests {
 	}
 
 	@Test
-	public void testOverwriteOutputName() {
+	public void testOverwriteOutput() {
 		runWithCommandLine("-overwrite");
 		
-		assertTrue(ip.getOverwriteOutputImage());
+		assertTrue(ip.getOverwriteOutput());
 	}
 
 	@Test
-	public void testOverwriteOutputNameShouldBeFalseByDefault() {
+	public void testOverwriteOutputShouldBeFalseByDefault() {
 		runWithCommandLine("");
 		
-		assertFalse(ip.getOverwriteOutputImage());
+		assertFalse(ip.getOverwriteOutput());
 	}
 
 	@Test
 	public void testOutputSize() {
 		runWithCommandLine("-size 512 256");
 		
-		assertEquals(512, ip.getOutputImageWidth());
-		assertEquals(256, ip.getOutputImageHeight());
+		assertEquals(512, ip.getOutputWidth());
+		assertEquals(256, ip.getOutputHeight());
 	}
 	
 	@Test(expected = MissingArgumentException.class)
@@ -161,13 +161,27 @@ public class CommandTests {
 	public void testSpacing() {
 		runWithCommandLine("-spacing 4");
 		
-		assertEquals(4, ip.getImageSpacing());
+		assertEquals(4, ip.getSpacing());
 	}
 
 	@Test
 	public void testSpacingShouldBeZeroByDefault() {
 		runWithCommandLine("");
 		
-		assertEquals(0, ip.getImageSpacing());
+		assertEquals(0, ip.getSpacing());
 	}
+	
+	@Test
+	public void testBorder() {
+		runWithCommandLine("-border 3");
+		
+		assertEquals(3, ip.getBorder());
+	}
+	
+	@Test
+	public void testBorderShouldBeZeroByDefault() {
+		runWithCommandLine("");
+		
+		assertEquals(0, ip.getBorder());
+	}	
 }

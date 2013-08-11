@@ -24,47 +24,49 @@ import yavnrh.app.imgpack.exception.DuplicateImageException;
 
 public class ImagePacker {
 
-	private String outputImageName;
-	private int outputImageWidth;
-	private int outputImageHeight;
-	private boolean overwriteOutputName;
+	private String outputName;
+	private int outputWidth;
+	private int outputHeight;
+	private boolean overwriteOutput;
 	
 	private LinkedHashSet<String> images;
-	private int imageSpacing;
+	private int spacing;
+	private int border;
 	
 	public ImagePacker() {
 		images = new LinkedHashSet<String>();
 		
-		outputImageName = "atlas";
-		outputImageWidth = 1024;
-		outputImageHeight = 1024;
-		overwriteOutputName = false;
+		outputName = "atlas";
+		outputWidth = 1024;
+		outputHeight = 1024;
+		overwriteOutput = false;
 		
-		imageSpacing = 0;
+		spacing = 0;
+		border = 0;
 	}
 	
-	public String getOutputImageName() {
-		return outputImageName;
+	public String getOutputName() {
+		return outputName;
 	}
 
-	public void setOutputImageName(String outputName) {
-		this.outputImageName = outputName;
+	public void setOutputName(String outputName) {
+		this.outputName = outputName;
 	}
 
-	public int getOutputImageWidth() {
-		return outputImageWidth;
+	public int getOutputWidth() {
+		return outputWidth;
 	}
 
-	public int getOutputImageHeight() {
-		return outputImageHeight;
+	public int getOutputHeight() {
+		return outputHeight;
 	}
 
-	public void setOutputImageWidth(int width) {
-		outputImageWidth = width;
+	public void setOutputWidth(int width) {
+		outputWidth = width;
 	}
 
-	public void setOutputImageHeight(int height) {
-		outputImageHeight = height;
+	public void setOutputHeight(int height) {
+		outputHeight = height;
 	}
 
 	public String[] getImages() {
@@ -84,19 +86,27 @@ public class ImagePacker {
 		return !images.contains(image);
 	}
 
-	public boolean getOverwriteOutputImage() {
-		return overwriteOutputName;
+	public boolean getOverwriteOutput() {
+		return overwriteOutput;
 	}
 
-	public void setOverwriteOutputName(boolean b) {
-		overwriteOutputName = b;
+	public void setOverwriteOutput(boolean b) {
+		overwriteOutput = b;
 	}
 
-	public void setImageSpacing(int spacing) {
-		imageSpacing = spacing;
+	public void setSpacing(int spacing) {
+		this.spacing = spacing;
 	}
 	
-	public int getImageSpacing() {
-		return imageSpacing;
+	public int getSpacing() {
+		return spacing;
+	}
+
+	public void setBorder(int border) {
+		this.border = border;
+	}
+	
+	public int getBorder() {
+		return border;
 	}
 }
