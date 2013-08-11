@@ -157,4 +157,17 @@ public class CommandTests {
 		assertTrue(images.contains("image03.png"));
 	}
 	
+	@Test
+	public void testSpacing() {
+		runWithCommandLine("-spacing 4");
+		
+		assertEquals(4, ip.getImageSpacing());
+	}
+
+	@Test
+	public void testSpacingShouldBeZeroByDefault() {
+		runWithCommandLine("");
+		
+		assertEquals(0, ip.getImageSpacing());
+	}
 }

@@ -30,13 +30,17 @@ public class ImagePacker {
 	private boolean overwriteOutputName;
 	
 	private LinkedHashSet<String> images;
+	private int imageSpacing;
 	
 	public ImagePacker() {
 		images = new LinkedHashSet<String>();
+		
 		outputImageName = "atlas";
 		outputImageWidth = 1024;
 		outputImageHeight = 1024;
 		overwriteOutputName = false;
+		
+		imageSpacing = 0;
 	}
 	
 	public String getOutputImageName() {
@@ -86,5 +90,13 @@ public class ImagePacker {
 
 	public void setOverwriteOutputName(boolean b) {
 		overwriteOutputName = b;
+	}
+
+	public void setImageSpacing(int spacing) {
+		imageSpacing = spacing;
+	}
+	
+	public int getImageSpacing() {
+		return imageSpacing;
 	}
 }
