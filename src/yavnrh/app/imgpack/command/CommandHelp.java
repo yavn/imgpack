@@ -35,23 +35,31 @@ public class CommandHelp extends Command {
 		String arg = cp.nextArg();
 
 		if (arg != null) {
-			try {
-				Command cmd = cp.decodeCommand(arg);
-				Main.log(cmd.help());
-			} catch (InvalidCommandException ex) {
-				Main.log("Help: unrecognized command ", arg);
-			}
+			showHelpForCommand(arg);
 		} else {
-			Main.log("imgpack - Dumb image packing tool, version 0.1");
-			Main.log("Copyright 2013 Maciej Jesionowski");
-			Main.log("This program is free software. See GNU GPL license for details.");
-			
-			for (Command cmd : cp.getCommands()) {
-				Main.log(cmd.help());
-			}
+			showFullHelp();
 		}
 		
 		cp.stop();
+	}
+
+	private void showFullHelp() {
+		Main.log("imgpack - Dumb image packing tool, version 0.1");
+		Main.log("Copyright 2013 Maciej Jesionowski");
+		Main.log("This program is free software. See GNU GPL license for details.");
+		
+		for (Command cmd : cp.getCommands()) {
+			Main.log(cmd.help());
+		}
+	}
+
+	private void showHelpForCommand(String arg) {
+		try {
+			Command cmd = cp.decodeCommand(arg);
+			Main.log(cmd.help());
+		} catch (InvalidCommandException ex) {
+			Main.log("Help: unrecognized command ", arg);
+		}
 	}
 	
 	@Override

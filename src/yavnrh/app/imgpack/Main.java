@@ -22,7 +22,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		CommandProcessor cp = new CommandProcessor(args);
-		cp.process();
+		cp.start();
 	}
 
 	public static void log(Object... objs) {

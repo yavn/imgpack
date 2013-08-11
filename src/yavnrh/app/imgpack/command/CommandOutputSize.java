@@ -18,17 +18,41 @@
 
 package yavnrh.app.imgpack.command;
 
+import yavnrh.app.imgpack.CommandProcessor;
+import yavnrh.app.imgpack.ImagePacker;
 import yavnrh.app.imgpack.Main;
+import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandOutputSize extends Command {
 
-	public CommandOutputSize() {
+	private CommandProcessor cp;
+	private ImagePacker ip;
+
+	public CommandOutputSize(CommandProcessor cp, ImagePacker ip) {
 		super("size");
+		this.cp = cp;
+		this.ip = ip;
 	}
 
 	@Override
 	public void execute() {
-		throw new RuntimeException("Command not yet implemented.");
+		String widthString = cp.nextArg();
+		String heightString = cp.nextArg();
+		
+		validateArguments(widthString, heightString);
+		
+		ip.setOutputImageWidth(Integer.parseInt(widthString));
+		ip.setOutputImageHeight(Integer.parseInt(heightString));
+	}
+
+	private void validateArguments(String widthString, String heightString) {
+		if (widthString == null) {
+			throw new MissingArgumentException("No width specified");
+		}
+		
+		if (heightString == null) {
+			throw new MissingArgumentException("No height specified");
+		}
 	}
 	
 	@Override

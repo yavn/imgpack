@@ -16,35 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package yavnrh.app.imgpack;
+package yavnrh.app.imgpack.exception;
 
-public class ImagePacker {
+public class MissingArgumentException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 
-	private String outputImageName;
-	private int outputImageWidth;
-	private int outputImageHeight;
-	
-	public String getOutputImageName() {
-		return outputImageName;
-	}
-
-	public void setOutputImageName(String outputName) {
-		this.outputImageName = outputName;
-	}
-
-	public int getOutputImageWidth() {
-		return outputImageWidth;
-	}
-
-	public int getOutputImageHeight() {
-		return outputImageHeight;
-	}
-
-	public void setOutputImageWidth(int width) {
-		outputImageWidth = width;
-	}
-
-	public void setOutputImageHeight(int height) {
-		outputImageHeight = height;
+	public MissingArgumentException(String message) {
+		super(message);
 	}
 }

@@ -18,17 +18,35 @@
 
 package yavnrh.app.imgpack.command;
 
+import yavnrh.app.imgpack.CommandProcessor;
+import yavnrh.app.imgpack.ImagePacker;
 import yavnrh.app.imgpack.Main;
+import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandOutputName extends Command {
 
-	public CommandOutputName() {
+	private ImagePacker ip;
+	private CommandProcessor cp;
+	
+	public CommandOutputName(CommandProcessor cp, ImagePacker ip) {
 		super("name");
+		this.cp = cp;
+		this.ip = ip;
 	}
 
 	@Override
 	public void execute() {
-		throw new RuntimeException("Command not yet implemented.");
+		String outputName = cp.nextArg();
+		
+		validateArgument(outputName);
+		
+		ip.setOutputImageName(outputName);
+	}
+
+	private void validateArgument(String outputName) {
+		if (outputName == null) {
+			throw new MissingArgumentException("No output name");
+		}
 	}
 	
 	@Override

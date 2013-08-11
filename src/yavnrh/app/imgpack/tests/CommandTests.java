@@ -29,12 +29,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import yavnrh.app.imgpack.CommandProcessor;
+import yavnrh.app.imgpack.ImagePacker;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class CommandTests {
 
 	private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 	private CommandProcessor cp;
+	private ImagePacker ip;
 	
 	@Before
 	public void setUp() {
@@ -53,7 +55,9 @@ public class CommandTests {
 		} else {
 			cp = new CommandProcessor(new String[0]);
 		}
-		cp.process();
+		cp.start();
+		
+		ip = cp.getImagePacker();
 	}
 
 	@Test
@@ -80,5 +84,18 @@ public class CommandTests {
 	public void testGarbageArguments() {
 		runWithCommandLine("cows from space");
 		assertTrue(out.toString().startsWith("Ignored argument:"));
+	}
+	
+	@Test
+	public void testOutputName() {
+		runWithCommandLine("-name output");
+		assertEquals("output", ip.getOutputImageName());
+	}
+	
+	@Test
+	public void testOutputSize() {
+		runWithCommandLine("-size 512 256");
+		assertEquals(512, ip.getOutputImageWidth());
+		assertEquals(256, ip.getOutputImageHeight());
 	}
 }

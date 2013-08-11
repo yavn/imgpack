@@ -49,8 +49,8 @@ public class CommandProcessor {
 
 	private void addCommands() {
 		commands.add(new CommandHelp(this));
-		commands.add(new CommandOutputName());
-		commands.add(new CommandOutputSize());
+		commands.add(new CommandOutputName(this, imagePacker));
+		commands.add(new CommandOutputSize(this, imagePacker));
 		commands.add(new CommandAddImage());
 		// spacing
 		// border
@@ -58,9 +58,9 @@ public class CommandProcessor {
 		// method
 	}
 	
-	public void process() {
+	public void start() {
 		if (args.size() > 0) {
-			processArguments();
+			processAllArguments();
 		} else {
 			displayHelp();
 		}
@@ -71,16 +71,20 @@ public class CommandProcessor {
 		cmd.execute();
 	}
 
-	private void processArguments() {
+	private void processAllArguments() {
 		String arg;
 
 		while ((arg = nextArg()) != null && !interruptProcessing) {
-			if (isCommandArgument(arg)) {
-				Command cmd = decodeCommand(stripLeadingDash(arg));
-				cmd.execute();				
-			} else {
-				Main.log("Ignored argument: ", arg);
-			}
+			processArgument(arg);
+		}
+	}
+
+	private void processArgument(String arg) {
+		if (isCommandArgument(arg)) {
+			Command cmd = decodeCommand(stripLeadingDash(arg));
+			cmd.execute();				
+		} else {
+			Main.log("Ignored argument: ", arg);
 		}
 	}
 
@@ -105,12 +109,16 @@ public class CommandProcessor {
 		throw new InvalidCommandException("Invalid command " + commandString);
 	}
 
+	public void stop() {
+		interruptProcessing = true;
+	}
+
 	public Command[] getCommands() {
 		Command[] result = new Command[commands.size()];
 		return commands.toArray(result);
 	}
 	
-	public void stop() {
-		interruptProcessing = true;
+	public ImagePacker getImagePacker() {
+		return imagePacker;
 	}
 }
