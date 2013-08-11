@@ -51,7 +51,7 @@ public class CommandProcessor {
 		commands.add(new CommandHelp(this));
 		commands.add(new CommandOutputName(this, imagePacker));
 		commands.add(new CommandOutputSize(this, imagePacker));
-		commands.add(new CommandAddImage());
+		commands.add(new CommandAddImage(this, imagePacker));
 		// spacing
 		// border
 		// crop

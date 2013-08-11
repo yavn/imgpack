@@ -18,17 +18,35 @@
 
 package yavnrh.app.imgpack.command;
 
+import yavnrh.app.imgpack.CommandProcessor;
+import yavnrh.app.imgpack.ImagePacker;
 import yavnrh.app.imgpack.Main;
+import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandAddImage extends Command {
 
-	public CommandAddImage() {
+	private ImagePacker ip;
+	private CommandProcessor cp;
+
+	public CommandAddImage(CommandProcessor cp, ImagePacker ip) {
 		super("add");
+		this.cp = cp;
+		this.ip = ip;
 	}
 
 	@Override
 	public void execute() {
-		throw new RuntimeException("Command not yet implemented.");
+		String imageFilename = cp.nextArg();
+		
+		validateArgument(imageFilename);
+
+		ip.addImage(imageFilename);
+	}
+
+	private void validateArgument(String imageFilename) {
+		if (imageFilename == null) {
+			throw new MissingArgumentException("No image specified");
+		}
 	}
 	
 	@Override

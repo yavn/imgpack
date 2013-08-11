@@ -18,11 +18,23 @@
 
 package yavnrh.app.imgpack;
 
+import java.util.LinkedHashSet;
+
+import yavnrh.app.imgpack.exception.DuplicateImageException;
+
 public class ImagePacker {
 
 	private String outputImageName;
 	private int outputImageWidth;
 	private int outputImageHeight;
+	private LinkedHashSet<String> images;
+	
+	public ImagePacker() {
+		images = new LinkedHashSet<String>();
+		outputImageName = "atlas";
+		outputImageWidth = 1024;
+		outputImageHeight = 1024;
+	}
 	
 	public String getOutputImageName() {
 		return outputImageName;
@@ -46,5 +58,22 @@ public class ImagePacker {
 
 	public void setOutputImageHeight(int height) {
 		outputImageHeight = height;
+	}
+
+	public String[] getImages() {
+		String result[] = new String[images.size()];
+		return images.toArray(result);
+	}
+
+	public void addImage(String image) {
+		if (isNewImage(image)) {
+			images.add(image);
+		} else {
+			throw new DuplicateImageException("Duplicate image " + image);
+		}
+	}
+
+	private boolean isNewImage(String image) {
+		return !images.contains(image);
 	}
 }
