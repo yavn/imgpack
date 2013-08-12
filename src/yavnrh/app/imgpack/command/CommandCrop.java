@@ -18,21 +18,21 @@
 
 package yavnrh.app.imgpack.command;
 
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
 
 public class CommandCrop extends Command {
 
-	private ImagePacker ip;
+	private Parameters params;
 	
-	public CommandCrop(ImagePacker ip) {
+	public CommandCrop(Parameters params) {
 		super("crop");
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
 	public void execute() {
-		ip.setCrop(true);
+		params.setCrop(true);
 	}
 	
 	@Override

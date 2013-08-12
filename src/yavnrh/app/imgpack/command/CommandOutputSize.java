@@ -19,19 +19,19 @@
 package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandOutputSize extends Command {
 
 	private CommandProcessor cp;
-	private ImagePacker ip;
+	private Parameters params;
 
-	public CommandOutputSize(CommandProcessor cp, ImagePacker ip) {
+	public CommandOutputSize(CommandProcessor cp, Parameters params) {
 		super("size");
 		this.cp = cp;
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
@@ -41,8 +41,8 @@ public class CommandOutputSize extends Command {
 		
 		validateArguments(widthString, heightString);
 		
-		ip.setOutputWidth(Integer.parseInt(widthString));
-		ip.setOutputHeight(Integer.parseInt(heightString));
+		params.setOutputWidth(Integer.parseInt(widthString));
+		params.setOutputHeight(Integer.parseInt(heightString));
 	}
 
 	private void validateArguments(String widthString, String heightString) {

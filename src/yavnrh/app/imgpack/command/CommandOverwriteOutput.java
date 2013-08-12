@@ -18,21 +18,21 @@
 
 package yavnrh.app.imgpack.command;
 
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
 
 public class CommandOverwriteOutput extends Command {
 
-	private ImagePacker ip;
+	private Parameters params;
 	
-	public CommandOverwriteOutput(ImagePacker ip) {
+	public CommandOverwriteOutput(Parameters params) {
 		super("overwrite");
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
 	public void execute() {
-		ip.setOverwriteOutput(true);
+		params.setOverwriteOutput(true);
 	}
 	
 	@Override

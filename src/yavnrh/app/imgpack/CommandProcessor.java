@@ -34,7 +34,7 @@ import yavnrh.app.imgpack.command.CommandSpacing;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class CommandProcessor {
-	private ImagePacker imagePacker;
+	private Parameters params;
 	private ArrayList<Command> commands;
 	private LinkedList<String> args;
 	
@@ -46,7 +46,7 @@ public class CommandProcessor {
 			args.add(arg);
 		}
 		
-		imagePacker = new ImagePacker();
+		params = new Parameters();
 		commands = new ArrayList<Command>();
 
 		addCommands();
@@ -54,14 +54,14 @@ public class CommandProcessor {
 
 	private void addCommands() {
 		commands.add(new CommandHelp(this));
-		commands.add(new CommandOutputName(this, imagePacker));
-		commands.add(new CommandOutputSize(this, imagePacker));
-		commands.add(new CommandAddImage(this, imagePacker));
-		commands.add(new CommandSpacing(this, imagePacker));
-		commands.add(new CommandBorder(this, imagePacker));
-		commands.add(new CommandCrop(imagePacker));
-		commands.add(new CommandMethod(this, imagePacker));
-		commands.add(new CommandOverwriteOutput(imagePacker));
+		commands.add(new CommandOutputName(this, params));
+		commands.add(new CommandOutputSize(this, params));
+		commands.add(new CommandAddImage(this, params));
+		commands.add(new CommandSpacing(this, params));
+		commands.add(new CommandBorder(this, params));
+		commands.add(new CommandCrop(params));
+		commands.add(new CommandMethod(this, params));
+		commands.add(new CommandOverwriteOutput(params));
 	}
 	
 	public void start() {
@@ -124,7 +124,7 @@ public class CommandProcessor {
 		return commands.toArray(result);
 	}
 	
-	public ImagePacker getImagePacker() {
-		return imagePacker;
+	public Parameters getParameters() {
+		return params;
 	}
 }

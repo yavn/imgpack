@@ -19,19 +19,19 @@
 package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandOutputName extends Command {
 
-	private ImagePacker ip;
+	private Parameters params;
 	private CommandProcessor cp;
 	
-	public CommandOutputName(CommandProcessor cp, ImagePacker ip) {
+	public CommandOutputName(CommandProcessor cp, Parameters params) {
 		super("name");
 		this.cp = cp;
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CommandOutputName extends Command {
 		
 		validateArgument(outputName);
 		
-		ip.setOutputName(outputName);
+		params.setOutputName(outputName);
 	}
 
 	private void validateArgument(String outputName) {

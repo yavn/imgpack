@@ -19,19 +19,19 @@
 package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandBorder extends Command {
 
-	private ImagePacker ip;
+	private Parameters params;
 	private CommandProcessor cp;
 	
-	public CommandBorder(CommandProcessor cp, ImagePacker ip) {
+	public CommandBorder(CommandProcessor cp, Parameters params) {
 		super("border");
 		this.cp = cp;
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CommandBorder extends Command {
 		
 		validateArgument(borderString);
 		
-		ip.setBorder(Integer.parseInt(borderString));
+		params.setBorder(Integer.parseInt(borderString));
 	}
 
 	private void validateArgument(String arg) {

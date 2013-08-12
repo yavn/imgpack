@@ -22,7 +22,7 @@ import java.util.LinkedHashSet;
 
 import yavnrh.app.imgpack.exception.DuplicateImageException;
 
-public class ImagePacker {
+public class Parameters {
 
 	public static enum PackingMethod {
 		BINARY_TREE,
@@ -40,7 +40,7 @@ public class ImagePacker {
 	private boolean crop;
 	private PackingMethod method;
 	
-	public ImagePacker() {
+	public Parameters() {
 		images = new LinkedHashSet<String>();
 		
 		outputName = "atlas";

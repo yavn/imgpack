@@ -19,21 +19,21 @@
 package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
-import yavnrh.app.imgpack.ImagePacker;
-import yavnrh.app.imgpack.ImagePacker.PackingMethod;
+import yavnrh.app.imgpack.Parameters;
+import yavnrh.app.imgpack.Parameters.PackingMethod;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.exception.InvalidPackingMethodException;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandMethod extends Command {
 
-	private ImagePacker ip;
+	private Parameters params;
 	private CommandProcessor cp;
 	
-	public CommandMethod(CommandProcessor cp, ImagePacker ip) {
+	public CommandMethod(CommandProcessor cp, Parameters params) {
 		super("method");
 		this.cp = cp;
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class CommandMethod extends Command {
 		
 		validateArgument(methodString);
 		
-		ip.setMethod(methodFromString(methodString));
+		params.setMethod(methodFromString(methodString));
 	}
 
 	private PackingMethod methodFromString(String methodString) {

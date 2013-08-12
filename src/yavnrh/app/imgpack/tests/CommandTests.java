@@ -32,7 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import yavnrh.app.imgpack.CommandProcessor;
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.DuplicateImageException;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
 import yavnrh.app.imgpack.exception.InvalidPackingMethodException;
@@ -42,7 +42,7 @@ public class CommandTests {
 
 	private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 	private CommandProcessor cp;
-	private ImagePacker ip;
+	private Parameters params;
 	
 	@Before
 	public void setUp() {
@@ -63,7 +63,7 @@ public class CommandTests {
 		}
 		cp.start();
 		
-		ip = cp.getImagePacker();
+		params = cp.getParameters();
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class CommandTests {
 	public void testOutputName() {
 		runWithCommandLine("-name output");
 		
-		assertEquals("output", ip.getOutputName());
+		assertEquals("output", params.getOutputName());
 	}
 	
 	@Test(expected = MissingArgumentException.class)
@@ -111,22 +111,22 @@ public class CommandTests {
 	public void testOverwriteOutput() {
 		runWithCommandLine("-overwrite");
 		
-		assertTrue(ip.getOverwriteOutput());
+		assertTrue(params.getOverwriteOutput());
 	}
 
 	@Test
 	public void testOverwriteOutputShouldBeFalseByDefault() {
 		runWithCommandLine("");
 		
-		assertFalse(ip.getOverwriteOutput());
+		assertFalse(params.getOverwriteOutput());
 	}
 
 	@Test
 	public void testOutputSize() {
 		runWithCommandLine("-size 512 256");
 		
-		assertEquals(512, ip.getOutputWidth());
-		assertEquals(256, ip.getOutputHeight());
+		assertEquals(512, params.getOutputWidth());
+		assertEquals(256, params.getOutputHeight());
 	}
 	
 	@Test(expected = MissingArgumentException.class)
@@ -137,7 +137,7 @@ public class CommandTests {
 	@Test
 	public void testAddImage() {
 		runWithCommandLine("-add image01.png");
-		List<String> images = Arrays.asList(ip.getImages());
+		List<String> images = Arrays.asList(params.getImages());
 		
 		assertTrue(images.contains("image01.png"));
 	}
@@ -150,7 +150,7 @@ public class CommandTests {
 	@Test
 	public void testAddMultipleImages() {
 		runWithCommandLine("-add image01.png -add image02.png -add image03.png");
-		List<String> images = Arrays.asList(ip.getImages());
+		List<String> images = Arrays.asList(params.getImages());
 		
 		assertEquals(3, images.size());
 		assertTrue(images.contains("image01.png"));
@@ -161,7 +161,7 @@ public class CommandTests {
 	@Test
 	public void testAddImagesPreservesOrder() {
 		runWithCommandLine("-add monkey.png -add apple.png -add pear.png -add elephant.png");
-		String[] images = ip.getImages();
+		String[] images = params.getImages();
 		
 		assertEquals("monkey.png", images[0]);
 		assertEquals("apple.png", images[1]);
@@ -173,63 +173,63 @@ public class CommandTests {
 	public void testSpacing() {
 		runWithCommandLine("-spacing 4");
 		
-		assertEquals(4, ip.getSpacing());
+		assertEquals(4, params.getSpacing());
 	}
 
 	@Test
 	public void testSpacingShouldBeZeroByDefault() {
 		runWithCommandLine("");
 		
-		assertEquals(0, ip.getSpacing());
+		assertEquals(0, params.getSpacing());
 	}
 	
 	@Test
 	public void testBorder() {
 		runWithCommandLine("-border 3");
 		
-		assertEquals(3, ip.getBorder());
+		assertEquals(3, params.getBorder());
 	}
 	
 	@Test
 	public void testBorderShouldBeZeroByDefault() {
 		runWithCommandLine("");
 		
-		assertEquals(0, ip.getBorder());
+		assertEquals(0, params.getBorder());
 	}
 	
 	@Test
 	public void testCrop() {
 		runWithCommandLine("-crop");
 		
-		assertTrue(ip.getCrop());
+		assertTrue(params.getCrop());
 	}
 
 	@Test
 	public void testCropShouldBeFalseByDefault() {
 		runWithCommandLine("");
 		
-		assertFalse(ip.getCrop());
+		assertFalse(params.getCrop());
 	}
 	
 	@Test
 	public void testMethodGrid() {
 		runWithCommandLine("-method grid");
 		
-		assertEquals(ImagePacker.PackingMethod.GRID, ip.getMethod());
+		assertEquals(Parameters.PackingMethod.GRID, params.getMethod());
 	}
 
 	@Test
 	public void testMethodBinaryTree() {
 		runWithCommandLine("-method bintree");
 		
-		assertEquals(ImagePacker.PackingMethod.BINARY_TREE, ip.getMethod());
+		assertEquals(Parameters.PackingMethod.BINARY_TREE, params.getMethod());
 	}
 	
 	@Test
 	public void testMethodShouldBeBinaryTreeByDefault() {
 		runWithCommandLine("");
 		
-		assertEquals(ImagePacker.PackingMethod.BINARY_TREE, ip.getMethod());
+		assertEquals(Parameters.PackingMethod.BINARY_TREE, params.getMethod());
 	}
 	
 	@Test(expected = InvalidPackingMethodException.class)

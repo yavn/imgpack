@@ -19,19 +19,19 @@
 package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
-import yavnrh.app.imgpack.ImagePacker;
+import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandSpacing extends Command {
 
-	private ImagePacker ip;
+	private Parameters params;
 	private CommandProcessor cp;
 	
-	public CommandSpacing(CommandProcessor cp, ImagePacker ip) {
+	public CommandSpacing(CommandProcessor cp, Parameters params) {
 		super("spacing");
 		this.cp = cp;
-		this.ip = ip;
+		this.params = params;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CommandSpacing extends Command {
 		
 		validateArgument(spacingString);
 		
-		ip.setSpacing(Integer.parseInt(spacingString));
+		params.setSpacing(Integer.parseInt(spacingString));
 	}
 
 	private void validateArgument(String arg) {
