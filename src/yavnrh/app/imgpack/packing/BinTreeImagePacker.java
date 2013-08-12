@@ -26,14 +26,21 @@ import yavnrh.app.imgpack.exception.ImagePackingException;
 
 public class BinTreeImagePacker extends ImagePacker {
 
+	private LinkedList<Image> images;
 	private BinTree tree;
 	
 	public BinTreeImagePacker(Parameters params) {
 		tree = new BinTree(new Rectangle(0, 0, params.getOutputWidth(), params.getOutputHeight()));
+		images = new LinkedList<Image>();
 	}
 
 	@Override
-	protected List<ImageRegion> getImageRegions() {
+	public void addImage(Image image) {
+		images.add(image);
+	}
+	
+	@Override
+	public List<ImageRegion> getImageRegions() {
 		List<ImageRegion> result = new LinkedList<ImageRegion>();
 		walkTreeAndCollectImageRegions(result, tree);		
 		return result;
@@ -50,12 +57,43 @@ public class BinTreeImagePacker extends ImagePacker {
 	
 	@Override
 	public void pack() {
-		for (Image image : images) {
-			BinTree insertNode = insertImage(image, tree);
-			if (insertNode == null) {
-				throw new ImagePackingException("Not enough space for image " + image.getName());
+		LinkedList<Image> workingImages = new LinkedList<Image>(images);		
+		int attempts = workingImages.size();
+		
+		for (;;) {
+			boolean failed = false;
+			Image lastImage = null;
+			
+			for (Image image : workingImages) {
+				lastImage = image;
+				BinTree insertNode = insertImage(image, tree);
+				
+				if (insertNode == null) {
+					failed = true;
+					break;
+				}
+			}
+			
+			if (failed) {
+				if (attempts > 1) {
+					// packing failed
+					// try once again, but starting with the image that has failed
+					
+					tree.clear();
+					attempts--;
+					workingImages.remove(lastImage);
+					workingImages.addFirst(lastImage);
+					
+				} else {
+					throw new ImagePackingException("Not enough space to fit image " + lastImage);
+				}
+			} else {
+				// packing successful
+				break;
 			}
 		}
+		
+		workingImages.clear();
 	}
 	
 	/**
@@ -105,14 +143,14 @@ public class BinTreeImagePacker extends ImagePacker {
 			Rectangle leftRegion = new Rectangle(region.x, region.y, imageWidth, region.height);
 			Rectangle rightRegion = new Rectangle(region.x + imageWidth, region.y, region.width - imageWidth, region.height);
 			
-			parent.makeChildrenWithSubregions(leftRegion, rightRegion);
+			parent.addChildrenWithSubregions(leftRegion, rightRegion);
 			
 		} else {
 			// split horizontally
 			Rectangle leftRegion = new Rectangle(region.x, region.y, region.width, imageHeight);
 			Rectangle rightRegion = new Rectangle(region.x, region.y + imageHeight, region.width, region.height - imageHeight);
 			
-			parent.makeChildrenWithSubregions(leftRegion, rightRegion);
+			parent.addChildrenWithSubregions(leftRegion, rightRegion);
 		}
 		
 		BinTree leftChild =	parent.getLeft();

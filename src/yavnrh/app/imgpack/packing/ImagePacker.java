@@ -18,20 +18,13 @@
 
 package yavnrh.app.imgpack.packing;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ImagePacker {
-	
-	protected ArrayList<Image> images;
-	
-	public ImagePacker() {
-		images = new ArrayList<Image>();
-	}
-	
-	public void addImage(Image image) {
-		images.add(image);
-	}
+
+	public abstract List<ImageRegion> getImageRegions();
+	public abstract void addImage(Image image);
+	public abstract void pack();
 
 	public final String dumpRegions() {
 		List<ImageRegion> regions = getImageRegions();		
@@ -53,7 +46,4 @@ public abstract class ImagePacker {
 		return sb.toString();
 	}
 
-	protected abstract List<ImageRegion> getImageRegions();
-	
-	public abstract void pack();
 }

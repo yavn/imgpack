@@ -65,9 +65,14 @@ public class BinTree {
 		return right;
 	}
 		
-	public void makeChildrenWithSubregions(Rectangle leftRegion, Rectangle rightRegion) {
+	public void addChildrenWithSubregions(Rectangle leftRegion, Rectangle rightRegion) {
 		left = new BinTree(leftRegion);
 		right = new BinTree(rightRegion);
 	}
 
+	public void clear() {
+		image = null;
+		left = null;
+		right = null;
+	}
 }

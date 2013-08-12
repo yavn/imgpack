@@ -58,4 +58,26 @@ public class BinTreePackingTests {
 		
 		assertEquals(expected, ip.dumpRegions());
 	}
+	
+	@Test
+	public void testPackThreeImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		
+		ImagePacker ip = new BinTreeImagePacker(params);
+		ip.addImage(Image.mock("mock1", 40, 70));
+		ip.addImage(Image.mock("mock2", 70, 70));
+		ip.addImage(Image.mock("mock3", 90, 50));
+		
+		ip.pack();
+
+		String expected = Main.concatenate(
+				"{0, 0, 128, 50} : mock3\n",
+				"{0, 50, 40, 78} : mock1\n",
+				"{40, 50, 70, 78} : mock2\n",
+				"{110, 50, 18, 78} : -\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}
 }
