@@ -20,4 +20,54 @@ package yavnrh.app.imgpack.packing;
 
 public class BinTree {
 
+	private Image image;
+	private Rectangle region;	
+	private BinTree left;
+	private BinTree right;
+	
+	public BinTree(Rectangle region) {
+		this.region = region;
+	}
+	
+	public boolean isLeaf() {
+		return (left == null) && (right == null);
+	}
+	
+	public Image getImage() {
+		return image;
+	}
+	
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	
+	public boolean hasImage() {
+		return image != null;
+	}
+	
+	public boolean canFitImage(Image image) {
+		return (image.getWidth() <= region.width) && (image.getHeight() <= region.height);
+	}
+
+	public boolean canFitImageExactly(Image image) {
+		return (region.width == image.getWidth()) && (region.height == image.getHeight());
+	}
+	
+	public Rectangle getRegion() {
+		return region;
+	}
+	
+	public BinTree getLeft() {
+		return left;
+	}
+	
+	public BinTree getRight() {
+		return right;
+	}
+		
+	public void makeChildrenWithSubregions(Rectangle leftRegion, Rectangle rightRegion) {
+		left = new BinTree(leftRegion);
+		right = new BinTree(rightRegion);
+	}
+
 }

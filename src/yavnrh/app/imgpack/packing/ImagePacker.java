@@ -33,14 +33,12 @@ public abstract class ImagePacker {
 		images.add(image);
 	}
 
-	protected abstract List<ImageRegion> getImageRegions();
-	
 	public final String dumpRegions() {
 		List<ImageRegion> regions = getImageRegions();		
 		StringBuilder sb = new StringBuilder();
 		
 		for (ImageRegion region : regions) {
-			sb.append(String.format("{%d,  %d, %d, %d} : ",
+			sb.append(String.format("{%d, %d, %d, %d} : ",
 					region.rectangle.x, region.rectangle.y, region.rectangle.width, region.rectangle.height));
 			
 			if (region.image != null) {
@@ -54,5 +52,8 @@ public abstract class ImagePacker {
 		
 		return sb.toString();
 	}
+
+	protected abstract List<ImageRegion> getImageRegions();
 	
+	public abstract void pack();
 }

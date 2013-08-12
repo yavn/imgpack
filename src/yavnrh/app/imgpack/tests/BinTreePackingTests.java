@@ -31,6 +31,17 @@ import yavnrh.app.imgpack.packing.ImagePacker;
 public class BinTreePackingTests {
 	
 	@Test
+	public void testPackWithoutImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(256);
+		params.setOutputHeight(256);
+		
+		ImagePacker ip = new BinTreeImagePacker(params);
+
+		assertEquals("{0, 0, 256, 256} : -\n", ip.dumpRegions());		
+	}
+	
+	@Test
 	public void testPackOneImage() {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
@@ -38,11 +49,12 @@ public class BinTreePackingTests {
 		
 		ImagePacker ip = new BinTreeImagePacker(params);
 		ip.addImage(Image.mock("mock1", 90, 120));
+		
+		ip.pack();
 
 		String expected = Main.concatenate(
-				"{0, 0, 90, 120} : mock1\n",
-				"{90, 0, 38, 120} : -\n",
-				"{0, 120, 128, 8} : -\n");
+				"{0, 0, 90, 128} : mock1\n",
+				"{90, 0, 38, 128} : -\n");
 		
 		assertEquals(expected, ip.dumpRegions());
 	}
