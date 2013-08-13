@@ -18,32 +18,25 @@
 
 package yavnrh.app.imgpack.packing;
 
-import java.util.List;
+public class PackingScore implements Comparable<PackingScore> {
+	public final Image image;
+	public final Rectangle rectangle;
+	public final int score;
 
-public abstract class ImagePacker {
-
-	public abstract List<PackedImage> getImageRegions();
-	public abstract void addImage(Image image);
-	public abstract void pack();
-
-	public final String dumpRegions() {
-		List<PackedImage> regions = getImageRegions();		
-		StringBuilder sb = new StringBuilder();
-		
-		for (PackedImage region : regions) {
-			sb.append(String.format("{%d, %d, %d, %d} : ",
-					region.rectangle.x, region.rectangle.y, region.rectangle.width, region.rectangle.height));
-			
-			if (region.image != null) {
-				sb.append(region.image.getName());
-			} else {
-				sb.append("-");
-			}
-			
-			sb.append("\n");
-		}
-		
-		return sb.toString();
+	public PackingScore(Rectangle rect, Image image, int score) {
+		this.image = image;
+		this.rectangle = rect;
+		this.score = score;
 	}
 
+	@Override
+	public int compareTo(PackingScore other) {
+		if (score < other.score) {
+			return -1;
+		} else if (score > other.score){
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }

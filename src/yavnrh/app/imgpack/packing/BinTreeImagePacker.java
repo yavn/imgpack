@@ -40,15 +40,15 @@ public class BinTreeImagePacker extends ImagePacker {
 	}
 	
 	@Override
-	public List<ImageRegion> getImageRegions() {
-		List<ImageRegion> result = new LinkedList<ImageRegion>();
+	public List<PackedImage> getImageRegions() {
+		List<PackedImage> result = new LinkedList<PackedImage>();
 		walkTreeAndCollectImageRegions(result, tree);		
 		return result;
 	}
 
-	private void walkTreeAndCollectImageRegions(List<ImageRegion> output, BinTree node) {
+	private void walkTreeAndCollectImageRegions(List<PackedImage> output, BinTree node) {
 		if (node.isLeaf()) {
-			output.add(new ImageRegion(node.getRegion(), node.getImage()));
+			output.add(new PackedImage(node.getRegion(), node.getImage()));
 		} else {
 			walkTreeAndCollectImageRegions(output, node.getLeft());
 			walkTreeAndCollectImageRegions(output, node.getRight());

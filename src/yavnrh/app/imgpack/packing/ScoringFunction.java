@@ -18,12 +18,23 @@
 
 package yavnrh.app.imgpack.packing;
 
-public class ImageRegion {
-	public final Image image;
-	public final Rectangle rectangle;
+public interface ScoringFunction {	
 	
-	public ImageRegion(Rectangle rectangle, Image image) {
-		this.rectangle = rectangle;
-		this.image = image;
-	}
+	int score(Rectangle rect, Image image);
+
+	ScoringFunction BEST_SHORT_SIDE_FIT = new ScoringFunction() {
+		@Override
+		public int score(Rectangle rect, Image image) {
+			final int dx = rect.width - image.getWidth();
+			final int dy = rect.height - image.getHeight();
+			final int score = Math.min(dx, dy);
+			
+			if (score < 0) {
+				// Not enough room to fit
+				return Integer.MAX_VALUE;
+			} else {
+				return score;
+			}
+		}
+	};
 }

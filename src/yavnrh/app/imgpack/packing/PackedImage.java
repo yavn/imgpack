@@ -18,32 +18,13 @@
 
 package yavnrh.app.imgpack.packing;
 
-import java.util.List;
-
-public abstract class ImagePacker {
-
-	public abstract List<PackedImage> getImageRegions();
-	public abstract void addImage(Image image);
-	public abstract void pack();
-
-	public final String dumpRegions() {
-		List<PackedImage> regions = getImageRegions();		
-		StringBuilder sb = new StringBuilder();
-		
-		for (PackedImage region : regions) {
-			sb.append(String.format("{%d, %d, %d, %d} : ",
-					region.rectangle.x, region.rectangle.y, region.rectangle.width, region.rectangle.height));
-			
-			if (region.image != null) {
-				sb.append(region.image.getName());
-			} else {
-				sb.append("-");
-			}
-			
-			sb.append("\n");
-		}
-		
-		return sb.toString();
+public class PackedImage {
+	/** Rectangle into which the image was packed. */
+	public final Rectangle rectangle;
+	public final Image image;
+	
+	public PackedImage(Rectangle rectangle, Image image) {
+		this.rectangle = rectangle;
+		this.image = image;
 	}
-
 }
