@@ -18,19 +18,20 @@
 
 package yavnrh.app.imgpack.packing;
 
-public class PackingScore implements Comparable<PackingScore> {
+public class ScoredPlacement implements Comparable<ScoredPlacement> {
+	
 	public final Image image;
 	public final Rectangle rectangle;
 	public final int score;
 
-	public PackingScore(Rectangle rect, Image image, int score) {
+	public ScoredPlacement(Rectangle rect, Image image, int score) {
 		this.image = image;
 		this.rectangle = rect;
 		this.score = score;
 	}
 
 	@Override
-	public int compareTo(PackingScore other) {
+	public int compareTo(ScoredPlacement other) {
 		if (score < other.score) {
 			return -1;
 		} else if (score > other.score){

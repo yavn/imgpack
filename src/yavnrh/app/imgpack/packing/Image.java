@@ -19,6 +19,7 @@
 package yavnrh.app.imgpack.packing;
 
 public class Image {
+	
 	private String name;
 	private int width;
 	private int height;

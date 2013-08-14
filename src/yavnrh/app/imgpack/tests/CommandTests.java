@@ -219,17 +219,17 @@ public class CommandTests {
 	}
 
 	@Test
-	public void testMethodBinaryTree() {
-		runWithCommandLine("-method bintree");
+	public void testMethodMaxRects() {
+		runWithCommandLine("-method maxrects");
 		
-		assertEquals(Parameters.PackingMethod.BINARY_TREE, params.getMethod());
+		assertEquals(Parameters.PackingMethod.MAX_RECTS, params.getMethod());
 	}
 	
 	@Test
-	public void testMethodShouldBeBinaryTreeByDefault() {
+	public void testMethodShouldBeMaxRectsByDefault() {
 		runWithCommandLine("");
 		
-		assertEquals(Parameters.PackingMethod.BINARY_TREE, params.getMethod());
+		assertEquals(Parameters.PackingMethod.MAX_RECTS, params.getMethod());
 	}
 	
 	@Test(expected = InvalidPackingMethodException.class)

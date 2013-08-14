@@ -18,13 +18,14 @@
 
 package yavnrh.app.imgpack.packing;
 
-public final class Rectangle {
+public class Rectangle {
+	
 	public final int x;
 	public final int y;
 	public final int width;
 	public final int height;
 	
-	// redundant data, to speed up calculations
+	// redundant data, to simplify calculations
 	public final int x2;
 	public final int y2;
 	

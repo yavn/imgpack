@@ -26,6 +26,21 @@ import java.util.List;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.ImagePackingException;
 
+/**
+ * MaxRects packing algorithm.
+ * 
+ * Packs images into a rectangle area, keeping track of free space
+ * as maximal rectangles ("max rects") and splitting them into smaller ones
+ * when necessary.
+ * 
+ * The method has some flexibility points; scoring method can be defined
+ * to determine which image should be placed first and in which free rectangle. 
+ * 
+ * Based on the paper
+ * "A Thousand Ways to Pack the Bin - A Practical Approach to Two-Dimensional Rectangle Bin Packing"
+ * by Jukka Jylänki, Feb 27, 2010.
+ * 
+ */
 public class MaxRectsImagePacker extends ImagePacker {
 	
 	// input
@@ -39,7 +54,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 	private LinkedList<Image> imagesToPack;
 	private LinkedList<PackedImage> packedImages;
 	private LinkedList<Rectangle> freeRects;	
-	private LinkedList<PackingScore> imageScores;
+	private LinkedList<ScoredPlacement> imagePlacementScores;
 	private ScoringFunction scoringFunction;
 	
 	
@@ -51,7 +66,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 		imagesToPack = new LinkedList<Image>(images);
 		packedImages = new LinkedList<PackedImage>();
 		freeRects = new LinkedList<Rectangle>();
-		imageScores = new LinkedList<PackingScore>();
+		imagePlacementScores = new LinkedList<ScoredPlacement>();
 		scoringFunction = ScoringFunction.BEST_SHORT_SIDE_FIT;
 	}
 	
@@ -70,15 +85,17 @@ public class MaxRectsImagePacker extends ImagePacker {
 		imagesToPack.clear();
 		packedImages.clear();
 		freeRects.clear();
-		imageScores.clear();
+		imagePlacementScores.clear();
 		
 		imagesToPack.addAll(images);
 		freeRects.add(new Rectangle(0, 0, width, height));
 
 		while (thereAreImagesToPack()) {
-			computePlacementScoreForEachImageInEachFreeRectangle();			
-			PackingScore bestPlacement = getBestPlacement(); 
+			computePlacementScoreForEachImageInEachFreeRectangle();
+			
+			ScoredPlacement bestPlacement = getBestPlacement(); 
 			PackedImage packedImage = packImage(bestPlacement);
+			
 			splitFreeRectsThatOverlapWithRect(packedImage.rectangle);
 			removeRedundantFreeRects();
 		}
@@ -128,8 +145,8 @@ public class MaxRectsImagePacker extends ImagePacker {
 		return splitRects;
 	}
 
-	private PackingScore getBestPlacement() {
-		PackingScore placement = imageScores.getFirst();
+	private ScoredPlacement getBestPlacement() {
+		ScoredPlacement placement = imagePlacementScores.getFirst();
 		
 		final boolean canFitWidth = placement.rectangle.width >= placement.image.getWidth();
 		final boolean canFitHeight = placement.rectangle.height >= placement.image.getHeight();
@@ -199,14 +216,14 @@ public class MaxRectsImagePacker extends ImagePacker {
 		return -1;
 	}
 
-	private PackedImage packImage(PackingScore bestPlacement) {
-		Rectangle occupiedRect = new Rectangle(
+	private PackedImage packImage(ScoredPlacement bestPlacement) {
+		Rectangle usedRect = new Rectangle(
 				bestPlacement.rectangle.x,
 				bestPlacement.rectangle.y,
 				bestPlacement.image.getWidth(),
 				bestPlacement.image.getHeight());
 		
-		PackedImage packed = new PackedImage(occupiedRect, bestPlacement.image);
+		PackedImage packed = new PackedImage(usedRect, bestPlacement.image);
 
 		imagesToPack.remove(bestPlacement.image);
 		packedImages.add(packed);
@@ -219,18 +236,18 @@ public class MaxRectsImagePacker extends ImagePacker {
 	}
 
 	private void computePlacementScoreForEachImageInEachFreeRectangle() {
-		imageScores.clear();		
+		imagePlacementScores.clear();		
 		for (Rectangle rect : freeRects) {
 			for (Image image : imagesToPack) {
 				computePlacementScore(rect, image);
 			}
 		}
-		Collections.sort(imageScores);
+		Collections.sort(imagePlacementScores);
 	}
 
 	private void computePlacementScore(Rectangle rect, Image image) {
 		final int score = scoringFunction.score(rect, image);
-		imageScores.add(new PackingScore(rect, image, score));
+		imagePlacementScores.add(new ScoredPlacement(rect, image, score));
 	}
 	
 }

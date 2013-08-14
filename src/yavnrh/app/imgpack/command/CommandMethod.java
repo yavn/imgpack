@@ -46,8 +46,8 @@ public class CommandMethod extends Command {
 	}
 
 	private PackingMethod methodFromString(String methodString) {
-		if (methodString.equals("bintree")) {
-			return PackingMethod.BINARY_TREE;
+		if (methodString.equals("maxrects")) {
+			return PackingMethod.MAX_RECTS;
 		} else if (methodString.equals("grid")) {
 			return PackingMethod.GRID;
 		} else {
@@ -64,7 +64,7 @@ public class CommandMethod extends Command {
 	@Override
 	public String help() {
 		return Main.concatenate("  ", command, " <name> - name of the packing method. Possible values are:\n",
-				"    bintree (default) - binary tree packing which minimizes wasted space,\n",
+				"    maxrects (default) - MaxRects algorithm which minimizes wasted space,\n",
 				"    grid - preserve images order and try to pack them in a grid.");
 	}
 }

@@ -25,7 +25,7 @@ import yavnrh.app.imgpack.exception.DuplicateImageException;
 public class Parameters {
 
 	public static enum PackingMethod {
-		BINARY_TREE,
+		MAX_RECTS,
 		GRID,
 	};
 		
@@ -51,7 +51,7 @@ public class Parameters {
 		spacing = 0;
 		border = 0;
 		crop = false;
-		method = PackingMethod.BINARY_TREE;
+		method = PackingMethod.MAX_RECTS;
 	}
 	
 	public String getOutputName() {

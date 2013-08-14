@@ -19,6 +19,7 @@
 package yavnrh.app.imgpack.packing;
 
 public class PackedImage {
+	
 	/** Rectangle into which the image was packed. */
 	public final Rectangle rectangle;
 	public final Image image;

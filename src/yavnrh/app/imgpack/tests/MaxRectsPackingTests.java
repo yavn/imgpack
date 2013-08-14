@@ -24,12 +24,22 @@ import org.junit.Test;
 
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
-import yavnrh.app.imgpack.packing.BinTreeImagePacker;
 import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
 
 public class MaxRectsPackingTests {
+	
+	@Test
+	public void testPackWithoutImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(256);
+		params.setOutputHeight(256);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+
+		assertEquals("", ip.dumpRegions());		
+	}
 	
 	@Test
 	public void testPackOneImage() {
@@ -44,6 +54,27 @@ public class MaxRectsPackingTests {
 
 		String expected = Main.concatenate(
 				"{0, 0, 90, 120} : mock1\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}
+
+	@Test
+	public void testPackThreeImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(Image.mock("mock1", 40, 70));
+		ip.addImage(Image.mock("mock2", 70, 70));
+		ip.addImage(Image.mock("mock3", 90, 50));
+		
+		ip.pack();
+
+		String expected = Main.concatenate(
+				"{0, 0, 90, 50} : mock3\n",
+				"{0, 50, 40, 70} : mock1\n",
+				"{40, 50, 70, 70} : mock2\n");
 		
 		assertEquals(expected, ip.dumpRegions());
 	}
