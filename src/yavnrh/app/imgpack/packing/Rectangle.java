@@ -24,10 +24,17 @@ public final class Rectangle {
 	public final int width;
 	public final int height;
 	
+	// redundant data, to speed up calculations
+	public final int x2;
+	public final int y2;
+	
 	public Rectangle(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		
+		this.x2 = x + width;
+		this.y2 = y + height;
 	}
 }

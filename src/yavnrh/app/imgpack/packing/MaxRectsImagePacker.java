@@ -18,6 +18,7 @@
 
 package yavnrh.app.imgpack.packing;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,16 +42,22 @@ public class MaxRectsImagePacker extends ImagePacker {
 	private LinkedList<PackingScore> imageScores;
 	private ScoringFunction scoringFunction;
 	
+	
 	public MaxRectsImagePacker(Parameters params) {
 		images = new LinkedList<Image>();
 		width = params.getOutputWidth();
 		height = params.getOutputHeight();
+		
+		imagesToPack = new LinkedList<Image>(images);
+		packedImages = new LinkedList<PackedImage>();
+		freeRects = new LinkedList<Rectangle>();
+		imageScores = new LinkedList<PackingScore>();
+		scoringFunction = ScoringFunction.BEST_SHORT_SIDE_FIT;
 	}
 	
 	@Override
 	public List<PackedImage> getImageRegions() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<PackedImage>(packedImages);
 	}
 
 	@Override
@@ -60,21 +67,65 @@ public class MaxRectsImagePacker extends ImagePacker {
 
 	@Override
 	public void pack() {
-		imagesToPack = new LinkedList<Image>(images);
-		packedImages = new LinkedList<PackedImage>();
-		freeRects = new LinkedList<Rectangle>();
-		imageScores = new LinkedList<PackingScore>();
-		scoringFunction = ScoringFunction.BEST_SHORT_SIDE_FIT;
+		imagesToPack.clear();
+		packedImages.clear();
+		freeRects.clear();
+		imageScores.clear();
 		
+		imagesToPack.addAll(images);
 		freeRects.add(new Rectangle(0, 0, width, height));
 
 		while (thereAreImagesToPack()) {
 			computePlacementScoreForEachImageInEachFreeRectangle();			
 			PackingScore bestPlacement = getBestPlacement(); 
-			PackedImage packedImage = packImage(bestPlacement);			
-			splitRectIntoNewFreeRects(bestPlacement.rectangle, packedImage.rectangle);
-			reduceFreeRects();
+			PackedImage packedImage = packImage(bestPlacement);
+			splitFreeRectsThatOverlapWithRect(packedImage.rectangle);
+			removeRedundantFreeRects();
 		}
+	}
+
+	private void splitFreeRectsThatOverlapWithRect(Rectangle used) {
+		Rectangle[] rectsToProcess = freeRects.toArray(new Rectangle[freeRects.size()]);
+		
+		for (Rectangle rect : rectsToProcess) {
+			ArrayList<Rectangle> split = splitRectangle(rect, used);
+
+			if (split.size() > 0) {
+				freeRects.remove(rect);
+				freeRects.addAll(split);
+			}
+		}
+	}
+
+	private ArrayList<Rectangle> splitRectangle(Rectangle rect, Rectangle used) {
+		final int dx1 = used.x  - rect.x;
+		final int dx2 = rect.x2 - used.x2;
+		final int dy1 = used.y  - rect.y;
+		final int dy2 = rect.y2 - used.y2;
+
+		ArrayList<Rectangle> splitRects = new ArrayList<Rectangle>(4);
+		
+		// rect on the left
+		if (dx1 > 0) {
+			splitRects.add(new Rectangle(rect.x, rect.y, dx1, rect.height));
+		}
+		
+		// rect on the right
+		if (dx2 > 0) {
+			splitRects.add(new Rectangle(rect.width - dx2, rect.y, dx2, rect.height));
+		}
+		
+		// rect on the top
+		if (dy1 > 0) {
+			splitRects.add(new Rectangle(rect.x, rect.y, rect.width, dy1));
+		}
+		
+		// rect on the bottom
+		if (dy2 > 0) {
+			splitRects.add(new Rectangle(rect.x, rect.height - dy2, rect.width, dy2));
+		}
+		
+		return splitRects;
 	}
 
 	private PackingScore getBestPlacement() {
@@ -90,10 +141,62 @@ public class MaxRectsImagePacker extends ImagePacker {
 		return placement;
 	}
 
-	private void reduceFreeRects() {
-		// TODO implement
-		// remove rects completely inside other rects
-		// join rects that can form a bigger rect
+	private void removeRedundantFreeRects() {
+		Rectangle[] rectsToProcess = freeRects.toArray(new Rectangle[freeRects.size()]);
+		
+		final int INDEX_NONE = -1;
+		
+		for (int i = 0; true; i++) {
+			i = indexOfNextNonNullObjectInArray(i, rectsToProcess);
+			
+			if (i == INDEX_NONE) break;
+			
+			Rectangle ithRect = rectsToProcess[i];
+
+			for (int j = 0; true; j++) {
+				j = indexOfNextNonNullObjectInArray(j, rectsToProcess);
+				
+				if (j == i) continue;
+				if (j == INDEX_NONE) break;
+				
+				Rectangle jthRect = rectsToProcess[j];
+				
+				if (rectangleContainsSubrectangle(ithRect, jthRect)) {					
+					rectsToProcess[j] = null;					
+					continue;
+				}
+			}
+		}
+		
+		freeRects.clear();
+		addNonNullRectsToList(rectsToProcess, freeRects);
+	}
+	
+	private void addNonNullRectsToList(Rectangle[] arrayWithNulls, LinkedList<Rectangle> list) {
+		for (Rectangle rect : arrayWithNulls) {
+			if (rect != null) {
+				list.add(rect);
+			}
+		}
+	}
+
+	private boolean rectangleContainsSubrectangle(Rectangle rect, Rectangle subRect) {
+		return (rect.x <= subRect.x) && (rect.x2 >= subRect.x2) &&
+			   (rect.y <= subRect.y) && (rect.y2 >= subRect.y2);
+	}
+
+	private int indexOfNextNonNullObjectInArray(int startIndex, Object[] array) {
+		if (startIndex >= array.length) {
+			return -1;
+		}
+		
+		for (int i = startIndex; i < array.length; i++) {
+			if (array[i] != null) {
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 
 	private PackedImage packImage(PackingScore bestPlacement) {
@@ -109,25 +212,6 @@ public class MaxRectsImagePacker extends ImagePacker {
 		packedImages.add(packed);
 		
 		return packed;
-	}
-
-	private void splitRectIntoNewFreeRects(Rectangle rect, Rectangle used) {
-		final int deltaWidth = rect.width - used.width;
-		final int deltaHeight = rect.height - used.height;
-
-		// Add up to two free rects. Note they may overlap.
-		
-		if (deltaWidth > 0) {
-			freeRects.add(new Rectangle(
-					rect.x + used.width, rect.y,
-					deltaWidth, rect.height));
-		}
-		
-		if (deltaHeight > 0) {
-			freeRects.add(new Rectangle(
-					rect.x, rect.y + used.height,
-					rect.width, deltaHeight));
-		}
 	}
 
 	private boolean thereAreImagesToPack() {
@@ -148,4 +232,5 @@ public class MaxRectsImagePacker extends ImagePacker {
 		final int score = scoringFunction.score(rect, image);
 		imageScores.add(new PackingScore(rect, image, score));
 	}
+	
 }

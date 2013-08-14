@@ -43,8 +43,7 @@ public class MaxRectsPackingTests {
 		ip.pack();
 
 		String expected = Main.concatenate(
-				"{0, 0, 90, 128} : mock1\n",
-				"{90, 0, 38, 128} : -\n");
+				"{0, 0, 90, 120} : mock1\n");
 		
 		assertEquals(expected, ip.dumpRegions());
 	}
