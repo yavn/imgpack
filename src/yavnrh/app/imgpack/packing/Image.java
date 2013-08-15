@@ -106,7 +106,7 @@ public class Image {
 	}
 
 	private Color getMockColor() {
-		String magicName = name + "_" + String.valueOf(width) + "_" + String.valueOf(height);
+		String magicName = String.format("%s_%d_%d", name, width, height);
 		final int hashCode = magicName.hashCode();
 		final int x = 0xff & (hashCode >> (3 * 8));		
 		final int xxx = x + (x << 8) + (x << 2 * 8);

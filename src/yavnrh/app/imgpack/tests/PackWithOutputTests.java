@@ -72,4 +72,26 @@ public class PackWithOutputTests {
 		Main.writeOutputImage(outputImage, params);
 	}
 	
+	@Test
+	public void testPackFiveImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		params.setOutputName("test_maxrects_five_images");
+		params.setOverwriteOutput(true);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(Image.mock("mock1", 32, 100));
+		ip.addImage(Image.mock("mock2", 16, 90));
+		ip.addImage(Image.mock("mock3", 20, 70));
+		ip.addImage(Image.mock("mock4", 80, 16));
+		ip.addImage(Image.mock("mock5", 70, 20));
+		
+		ip.pack();
+
+		BufferedImage outputImage = ip.getOutputImage();
+		assertNotNull(outputImage);
+		
+		Main.writeOutputImage(outputImage, params);
+	}
 }

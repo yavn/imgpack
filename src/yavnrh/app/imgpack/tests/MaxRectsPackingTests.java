@@ -79,4 +79,28 @@ public class MaxRectsPackingTests {
 		assertEquals(expected, ip.dumpRegions());
 	}
 	
+	@Test
+	public void testPackFiveImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(Image.mock("mock1", 32, 100));
+		ip.addImage(Image.mock("mock2", 16, 90));
+		ip.addImage(Image.mock("mock3", 20, 70));
+		ip.addImage(Image.mock("mock4", 80, 16));
+		ip.addImage(Image.mock("mock5", 70, 20));
+		
+		ip.pack();
+
+		String expected = Main.concatenate(
+				"{0, 0, 32, 100} : mock1\n",
+				"{0, 100, 70, 20} : mock5\n",
+				"{32, 0, 16, 90} : mock2\n",
+				"{48, 0, 80, 16} : mock4\n",
+				"{48, 16, 20, 70} : mock3\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}
 }

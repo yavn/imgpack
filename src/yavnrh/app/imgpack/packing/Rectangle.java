@@ -38,4 +38,10 @@ public class Rectangle {
 		this.x2 = x + width;
 		this.y2 = y + height;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("{%d, %d, %d, %d}", x, y, width, height);
+	}
+	
 }

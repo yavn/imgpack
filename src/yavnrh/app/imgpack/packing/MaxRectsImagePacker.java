@@ -56,8 +56,8 @@ public class MaxRectsImagePacker extends ImagePacker {
 	private LinkedList<Rectangle> freeRects;	
 	private LinkedList<ScoredPlacement> imagePlacementScores;
 	private ScoringFunction scoringFunction;
-	
-	
+
+
 	public MaxRectsImagePacker(Parameters params) {
 		super(params);
 		
@@ -107,13 +107,18 @@ public class MaxRectsImagePacker extends ImagePacker {
 		Rectangle[] rectsToProcess = freeRects.toArray(new Rectangle[freeRects.size()]);
 		
 		for (Rectangle rect : rectsToProcess) {
-			ArrayList<Rectangle> split = splitRectangle(rect, used);
+			if (rectsAreIntersecting(rect, used)) {
+				ArrayList<Rectangle> split = splitRectangle(rect, used);
 
-			if (split.size() > 0) {
 				freeRects.remove(rect);
 				freeRects.addAll(split);
 			}
 		}
+	}
+
+	private boolean rectsAreIntersecting(Rectangle a, Rectangle b) {
+		return (a.x2 > b.x) && (a.x < b.x2) &&
+			   (a.y2 > b.y) && (a.y < b.y2); 
 	}
 
 	private ArrayList<Rectangle> splitRectangle(Rectangle rect, Rectangle used) {
@@ -123,7 +128,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 		final int dy2 = rect.y2 - used.y2;
 
 		ArrayList<Rectangle> splitRects = new ArrayList<Rectangle>(4);
-		
+
 		// rect on the left
 		if (dx1 > 0) {
 			splitRects.add(new Rectangle(rect.x, rect.y, dx1, rect.height));
@@ -131,7 +136,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 		
 		// rect on the right
 		if (dx2 > 0) {
-			splitRects.add(new Rectangle(rect.width - dx2, rect.y, dx2, rect.height));
+			splitRects.add(new Rectangle(rect.x2 - dx2, rect.y, dx2, rect.height));
 		}
 		
 		// rect on the top
@@ -141,7 +146,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 		
 		// rect on the bottom
 		if (dy2 > 0) {
-			splitRects.add(new Rectangle(rect.x, rect.height - dy2, rect.width, dy2));
+			splitRects.add(new Rectangle(rect.x, rect.y2 - dy2, rect.width, dy2));
 		}
 		
 		return splitRects;
@@ -229,7 +234,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 
 		imagesToPack.remove(bestPlacement.image);
 		packedImages.add(packed);
-		
+
 		return packed;
 	}
 
