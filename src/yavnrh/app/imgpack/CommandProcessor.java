@@ -64,12 +64,14 @@ public class CommandProcessor {
 		commands.add(new CommandOverwriteOutput(params));
 	}
 	
-	public void start() {
+	public Parameters processArguments() {
 		if (args.size() > 0) {
 			processAllArguments();
 		} else {
 			displayHelp();
 		}
+		
+		return params;
 	}
 
 	private void displayHelp() {
@@ -123,8 +125,5 @@ public class CommandProcessor {
 		Command[] result = new Command[commands.size()];
 		return commands.toArray(result);
 	}
-	
-	public Parameters getParameters() {
-		return params;
-	}
+
 }

@@ -19,10 +19,10 @@
 package yavnrh.app.imgpack.command;
 
 import yavnrh.app.imgpack.CommandProcessor;
+import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Parameters.PackingMethod;
-import yavnrh.app.imgpack.Main;
-import yavnrh.app.imgpack.exception.InvalidPackingMethodException;
+import yavnrh.app.imgpack.exception.InvalidCommandException;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandMethod extends Command {
@@ -51,7 +51,7 @@ public class CommandMethod extends Command {
 		} else if (methodString.equals("grid")) {
 			return PackingMethod.GRID;
 		} else {
-			throw new InvalidPackingMethodException(methodString); 
+			throw new InvalidCommandException("Invalid packing method " + methodString); 
 		}
 	}
 

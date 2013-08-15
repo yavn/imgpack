@@ -33,9 +33,7 @@ import org.junit.Test;
 
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
-import yavnrh.app.imgpack.exception.DuplicateImageException;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
-import yavnrh.app.imgpack.exception.InvalidPackingMethodException;
 import yavnrh.app.imgpack.exception.MissingArgumentException;
 
 public class CommandTests {
@@ -61,9 +59,7 @@ public class CommandTests {
 		} else {
 			cp = new CommandProcessor(new String[0]);
 		}
-		cp.start();
-		
-		params = cp.getParameters();
+		params = cp.processArguments();
 	}
 
 	@Test
@@ -142,7 +138,7 @@ public class CommandTests {
 		assertTrue(images.contains("image01.png"));
 	}
 
-	@Test(expected = DuplicateImageException.class)
+	@Test(expected = InvalidCommandException.class)
 	public void testAddDuplicateImage() {
 		runWithCommandLine("-add image01.png -add image01.png");
 	}
@@ -232,7 +228,7 @@ public class CommandTests {
 		assertEquals(Parameters.PackingMethod.MAX_RECTS, params.getMethod());
 	}
 	
-	@Test(expected = InvalidPackingMethodException.class)
+	@Test(expected = InvalidCommandException.class)
 	public void testInvalidMethod() {
 		runWithCommandLine("-method derp");
 	}

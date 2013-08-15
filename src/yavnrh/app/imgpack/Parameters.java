@@ -20,7 +20,7 @@ package yavnrh.app.imgpack;
 
 import java.util.LinkedHashSet;
 
-import yavnrh.app.imgpack.exception.DuplicateImageException;
+import yavnrh.app.imgpack.exception.InvalidCommandException;
 
 public class Parameters {
 
@@ -87,7 +87,7 @@ public class Parameters {
 		if (isNewImage(image)) {
 			images.add(image);
 		} else {
-			throw new DuplicateImageException("Duplicate image " + image);
+			throw new InvalidCommandException("Duplicate image " + image);
 		}
 	}
 

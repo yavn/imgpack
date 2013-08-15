@@ -22,7 +22,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		CommandProcessor cp = new CommandProcessor(args);
-		cp.start();
+		Parameters params = cp.processArguments();
+		
+		Packer packer = new Packer(params);
+		packer.start();
 	}
 
 	public static void log(Object... objs) {

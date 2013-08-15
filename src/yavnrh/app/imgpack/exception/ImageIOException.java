@@ -18,10 +18,10 @@
 
 package yavnrh.app.imgpack.exception;
 
-public class InvalidPackingMethodException extends RuntimeException {
+public class ImageIOException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public InvalidPackingMethodException(String message) {
+	public ImageIOException(String message) {
 		super(message);
 	}
 }

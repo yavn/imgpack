@@ -16,12 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package yavnrh.app.imgpack.exception;
+package yavnrh.app.imgpack;
 
-public class DuplicateImageException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+public class Packer {
 
-	public DuplicateImageException(String message) {
-		super(message);
+	private Parameters params;
+	
+	public Packer(Parameters params) {
+		this.params = params;
 	}
+	
+	public void start() {
+		if (hasWorkToDo()) {
+			packImages();
+		} else {
+			Main.log("No images specified.");
+		}
+	}
+
+	private boolean hasWorkToDo() {
+		return (params.getImages().length > 0);
+	}
+
+	
+	private void packImages() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
