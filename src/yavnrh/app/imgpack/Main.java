@@ -18,14 +18,65 @@
 
 package yavnrh.app.imgpack;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import yavnrh.app.imgpack.exception.ImagePackingException;
+import yavnrh.app.imgpack.packing.ImagePacker;
+import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
+
 public class Main {
 
 	public static void main(String[] args) {
 		CommandProcessor cp = new CommandProcessor(args);
 		Parameters params = cp.processArguments();
 		
-		Packer packer = new Packer(params);
-		packer.start();
+		if (params.isReadyToPack()) {
+			ImagePacker ip = getImagePacker(params);
+
+			ip.addImages();
+			ip.pack();
+			
+			writeOutputImage(ip.getOutputImage(), params);
+		}
+	}
+	
+	private static ImagePacker getImagePacker(Parameters params) {
+		switch (params.getMethod()) {
+		case GRID:
+			// TODO not yet implemented...
+			break;
+			
+		case MAX_RECTS:
+			return new MaxRectsImagePacker(params);
+		}
+		
+		throw new ImagePackingException(params.getMethod().name() + " packing method not implemented.");	
+	}
+
+	public static void writeOutputImage(BufferedImage outputImage, Parameters params) {
+		try {
+			File file = new File(params.getOutputName() + ".png");
+			
+			if (file.exists() && !params.getOverwriteOutput()) {
+				throw new RuntimeException("File " + file.getName() + " exists. Will not overwrite.");
+			}
+			
+			BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(file));
+			ImageIO.write(outputImage, "png", output);
+			output.close();
+			
+		} catch (FileNotFoundException ex) {
+			throw new RuntimeException(ex);
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	public static void log(Object... objs) {

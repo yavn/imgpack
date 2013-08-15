@@ -21,7 +21,7 @@ package yavnrh.app.imgpack.command;
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandOutputSize extends Command {
 
@@ -47,11 +47,22 @@ public class CommandOutputSize extends Command {
 
 	private void validateArguments(String widthString, String heightString) {
 		if (widthString == null) {
-			throw new MissingArgumentException("No width specified");
+			throw new CommandArgumentException("No width specified");
 		}
 		
 		if (heightString == null) {
-			throw new MissingArgumentException("No height specified");
+			throw new CommandArgumentException("No height specified");
+		}
+		
+		final int width = Integer.parseInt(widthString);
+		final int height = Integer.parseInt(heightString);
+		
+		if (width <= 0) {
+			throw new CommandArgumentException("Output width must be greater than zero");
+		}
+		
+		if (height <= 0) {
+			throw new CommandArgumentException("Output height must be greater than zero");
 		}
 	}
 	

@@ -21,7 +21,7 @@ package yavnrh.app.imgpack.command;
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandAddImage extends Command {
 
@@ -44,8 +44,8 @@ public class CommandAddImage extends Command {
 	}
 
 	private void validateArgument(String imageFilename) {
-		if (imageFilename == null) {
-			throw new MissingArgumentException("No image specified");
+		if (imageFilename == null || imageFilename.length() == 0) {
+			throw new CommandArgumentException("No image specified");
 		}
 	}
 	

@@ -18,16 +18,31 @@
 
 package yavnrh.app.imgpack.packing;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.List;
+
+import yavnrh.app.imgpack.Parameters;
 
 public abstract class ImagePacker {
 
-	public abstract List<PackedImage> getImageRegions();
-	public abstract void addImage(Image image);
-	public abstract void pack();
+	protected Parameters params;
+	
+	public ImagePacker(Parameters params) {
+		this.params = params;
+	}
 
-	public final String dumpRegions() {
-		List<PackedImage> regions = getImageRegions();		
+	/**
+	 * Add images specified in parameters.
+	 */
+	public void addImages() {
+		for (String imageName : params.getImages()) {
+			addImage(Image.fromFile(imageName));
+		}
+	}
+	
+	public String dumpRegions() {
+		List<PackedImage> regions = getPackedImages();		
 		StringBuilder sb = new StringBuilder();
 		
 		for (PackedImage region : regions) {
@@ -45,5 +60,32 @@ public abstract class ImagePacker {
 		
 		return sb.toString();
 	}
+
+	public BufferedImage getOutputImage() {
+		List<PackedImage> packedImages = getPackedImages();
+		
+		if (packedImages.size() == 0) {
+			return null;
+		}
+		
+		BufferedImage outputImage = new BufferedImage(params.getOutputWidth(), params.getOutputHeight(), BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics2D g = outputImage.createGraphics();
+		
+		for (PackedImage image : packedImages) {
+			g.drawImage(image.image.getBufferedImage(),
+						image.rectangle.x,
+						image.rectangle.y,
+						null);
+		}
+		
+		g.dispose();
+		
+		return outputImage;
+	}
+	
+	public abstract List<PackedImage> getPackedImages();
+	public abstract void addImage(Image image);
+	public abstract void pack();
 
 }

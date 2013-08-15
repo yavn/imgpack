@@ -18,10 +18,10 @@
 
 package yavnrh.app.imgpack.exception;
 
-public class MissingArgumentException extends RuntimeException {
+public class CommandArgumentException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public MissingArgumentException(String message) {
+	public CommandArgumentException(String message) {
 		super(message);
 	}
 }

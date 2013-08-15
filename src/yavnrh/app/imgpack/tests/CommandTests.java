@@ -34,7 +34,7 @@ import org.junit.Test;
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandTests {
 
@@ -98,7 +98,7 @@ public class CommandTests {
 		assertEquals("output", params.getOutputName());
 	}
 	
-	@Test(expected = MissingArgumentException.class)
+	@Test(expected = CommandArgumentException.class)
 	public void testMissingOutputName() {
 		runWithCommandLine("-name");
 	}
@@ -125,7 +125,7 @@ public class CommandTests {
 		assertEquals(256, params.getOutputHeight());
 	}
 	
-	@Test(expected = MissingArgumentException.class)
+	@Test(expected = CommandArgumentException.class)
 	public void testMissingOutputSize() {
 		runWithCommandLine("-size 128");
 	}

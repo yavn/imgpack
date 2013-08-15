@@ -119,6 +119,7 @@ public class CommandProcessor {
 
 	public void stop() {
 		interruptProcessing = true;
+		params.setReadyToPack(false);
 	}
 
 	public Command[] getCommands() {

@@ -40,6 +40,8 @@ public class Parameters {
 	private boolean crop;
 	private PackingMethod method;
 	
+	private boolean readyToPack;
+	
 	public Parameters() {
 		images = new LinkedHashSet<String>();
 		
@@ -52,6 +54,8 @@ public class Parameters {
 		border = 0;
 		crop = false;
 		method = PackingMethod.MAX_RECTS;
+		
+		readyToPack = true;
 	}
 	
 	public String getOutputName() {
@@ -133,5 +137,13 @@ public class Parameters {
 
 	public PackingMethod getMethod() {
 		return method;
+	}
+	
+	public void setReadyToPack(boolean b) {
+		readyToPack = b;
+	}
+	
+	public boolean isReadyToPack() {
+		return readyToPack;
 	}
 }

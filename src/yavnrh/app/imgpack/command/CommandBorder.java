@@ -21,7 +21,7 @@ package yavnrh.app.imgpack.command;
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandBorder extends Command {
 
@@ -44,8 +44,14 @@ public class CommandBorder extends Command {
 	}
 
 	private void validateArgument(String arg) {
-		if (arg == null) {
-			throw new MissingArgumentException("No border value specified");
+		if (arg == null || arg.length() == 0) {
+			throw new CommandArgumentException("No border value specified");
+		}
+		
+		final int border = Integer.parseInt(arg);
+		
+		if (border < 0) {
+			throw new CommandArgumentException("Border value is negative");
 		}
 	}
 	

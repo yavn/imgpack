@@ -21,7 +21,7 @@ package yavnrh.app.imgpack.command;
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandOutputName extends Command {
 
@@ -44,8 +44,8 @@ public class CommandOutputName extends Command {
 	}
 
 	private void validateArgument(String outputName) {
-		if (outputName == null) {
-			throw new MissingArgumentException("No output name");
+		if (outputName == null || outputName.length() == 0) {
+			throw new CommandArgumentException("No output name");
 		}
 	}
 	

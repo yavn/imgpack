@@ -59,6 +59,8 @@ public class MaxRectsImagePacker extends ImagePacker {
 	
 	
 	public MaxRectsImagePacker(Parameters params) {
+		super(params);
+		
 		images = new LinkedList<Image>();
 		width = params.getOutputWidth();
 		height = params.getOutputHeight();
@@ -71,7 +73,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 	}
 	
 	@Override
-	public List<PackedImage> getImageRegions() {
+	public List<PackedImage> getPackedImages() {
 		return new ArrayList<PackedImage>(packedImages);
 	}
 

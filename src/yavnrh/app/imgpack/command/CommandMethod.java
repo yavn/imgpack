@@ -23,7 +23,7 @@ import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Parameters.PackingMethod;
 import yavnrh.app.imgpack.exception.InvalidCommandException;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandMethod extends Command {
 
@@ -57,7 +57,7 @@ public class CommandMethod extends Command {
 
 	private void validateArgument(String arg) {
 		if (arg == null) {
-			throw new MissingArgumentException("No packing method specified");
+			throw new CommandArgumentException("No packing method specified");
 		}
 	}
 	

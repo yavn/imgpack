@@ -21,7 +21,7 @@ package yavnrh.app.imgpack.command;
 import yavnrh.app.imgpack.CommandProcessor;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.Main;
-import yavnrh.app.imgpack.exception.MissingArgumentException;
+import yavnrh.app.imgpack.exception.CommandArgumentException;
 
 public class CommandSpacing extends Command {
 
@@ -45,7 +45,13 @@ public class CommandSpacing extends Command {
 
 	private void validateArgument(String arg) {
 		if (arg == null) {
-			throw new MissingArgumentException("No spacing value specified");
+			throw new CommandArgumentException("No spacing value specified");
+		}
+		
+		final int spacing = Integer.parseInt(arg);
+		
+		if (spacing < 0) {
+			throw new CommandArgumentException("Spacing value is negative");
 		}
 	}
 	
