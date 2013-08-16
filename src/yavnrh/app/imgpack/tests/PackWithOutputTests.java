@@ -123,4 +123,28 @@ public class PackWithOutputTests {
 		
 		Main.writeOutputImage(outputImage, params);
 	}
+	
+	@Test
+	public void testPackImagesWithBorderAndSpacing() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		params.setBorder(14);
+		params.setSpacing(6);
+		params.setOutputName("test_maxrects_border_spacing");
+		params.setOverwriteOutput(true);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(Image.mock("mock1", 40, 40));
+		ip.addImage(Image.mock("mock2", 40, 60));
+		ip.addImage(Image.mock("mock3", 100, 30));
+		
+		ip.pack();
+
+		BufferedImage outputImage = ip.getOutputImage();
+		assertNotNull(outputImage);
+		
+		Main.writeOutputImage(outputImage, params);
+	}
+	
 }

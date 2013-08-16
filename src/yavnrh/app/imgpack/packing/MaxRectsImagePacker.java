@@ -43,11 +43,7 @@ import yavnrh.app.imgpack.exception.ImagePackingException;
  */
 public class MaxRectsImagePacker extends ImagePacker {
 	
-	// input
-	
 	private LinkedList<Image> images;
-	private int width;
-	private int height;
 	
 	// state used during the packing algorithm
 	
@@ -62,9 +58,6 @@ public class MaxRectsImagePacker extends ImagePacker {
 		super(params);
 		
 		images = new LinkedList<Image>();
-		width = params.getOutputWidth();
-		height = params.getOutputHeight();
-		
 		imagesToPack = new LinkedList<Image>(images);
 		packedImages = new LinkedList<PackedImage>();
 		freeRects = new LinkedList<Rectangle>();
@@ -89,8 +82,8 @@ public class MaxRectsImagePacker extends ImagePacker {
 		freeRects.clear();
 		imagePlacementScores.clear();
 		
-		imagesToPack.addAll(images);
-		freeRects.add(new Rectangle(0, 0, width, height));
+		imagesToPack.addAll(images);		
+		addInitialFreeRect();
 
 		while (thereAreImagesToPack()) {
 			computePlacementScoreForEachImageInEachFreeRectangle();
@@ -101,6 +94,14 @@ public class MaxRectsImagePacker extends ImagePacker {
 			splitFreeRectsThatOverlapWithRect(packedImage.rectangle);
 			removeRedundantFreeRects();
 		}
+	}
+
+	private void addInitialFreeRect() {
+		final int border = params.getBorder();
+		final int width = Math.max(0, params.getOutputWidth() - border);
+		final int height = Math.max(0, params.getOutputHeight() - border);
+		
+		freeRects.add(new Rectangle(border, border, width, height));
 	}
 
 	private void splitFreeRectsThatOverlapWithRect(Rectangle used) {
@@ -224,11 +225,13 @@ public class MaxRectsImagePacker extends ImagePacker {
 	}
 
 	private PackedImage packImage(ScoredPlacement bestPlacement) {
+		final int spacing = params.getSpacing();
+		
 		Rectangle usedRect = new Rectangle(
 				bestPlacement.rectangle.x,
 				bestPlacement.rectangle.y,
-				bestPlacement.image.getWidth(),
-				bestPlacement.image.getHeight());
+				bestPlacement.image.getWidth() + spacing,
+				bestPlacement.image.getHeight() + spacing);
 		
 		PackedImage packed = new PackedImage(usedRect, bestPlacement.image);
 

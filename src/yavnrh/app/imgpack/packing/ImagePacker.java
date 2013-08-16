@@ -47,7 +47,7 @@ public abstract class ImagePacker {
 		
 		for (PackedImage region : regions) {
 			sb.append(String.format("{%d, %d, %d, %d} : ",
-					region.rectangle.x, region.rectangle.y, region.rectangle.width, region.rectangle.height));
+					region.rectangle.x, region.rectangle.y, region.image.getWidth(), region.image.getHeight()));
 			
 			if (region.image != null) {
 				sb.append(region.image.getName());
