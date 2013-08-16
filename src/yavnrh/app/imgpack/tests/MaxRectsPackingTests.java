@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
+import yavnrh.app.imgpack.exception.ImagePackingException;
 import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
@@ -100,6 +101,23 @@ public class MaxRectsPackingTests {
 				"{32, 0, 16, 90} : mock2\n",
 				"{48, 0, 80, 16} : mock4\n",
 				"{48, 16, 20, 70} : mock3\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}
+	
+	@Test(expected = ImagePackingException.class)
+	public void testPackImagesThatDontFit() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(Image.mock("mock1", 64, 128));
+		ip.addImage(Image.mock("mock1", 128, 32));
+		
+		ip.pack();
+
+		String expected = Main.concatenate("");
 		
 		assertEquals(expected, ip.dumpRegions());
 	}

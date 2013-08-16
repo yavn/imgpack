@@ -94,4 +94,33 @@ public class PackWithOutputTests {
 		
 		Main.writeOutputImage(outputImage, params);
 	}
+	
+	@Test
+	public void testPackManyImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		params.setOutputName("test_maxrects_many_images");
+		params.setOverwriteOutput(true);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(Image.mock("mock1", 32, 32));
+		ip.addImage(Image.mock("mock2", 16, 16));
+		ip.addImage(Image.mock("mock3", 24, 48));
+		ip.addImage(Image.mock("mock4", 50, 30));
+		ip.addImage(Image.mock("mock5", 90, 30));
+		ip.addImage(Image.mock("mock6", 35, 70));
+		ip.addImage(Image.mock("mock7", 8, 67));
+		ip.addImage(Image.mock("mock8", 75, 24));
+		ip.addImage(Image.mock("mock9", 27, 32));
+		ip.addImage(Image.mock("mock10", 20, 35));
+		ip.addImage(Image.mock("mock11", 25, 40));
+		
+		ip.pack();
+
+		BufferedImage outputImage = ip.getOutputImage();
+		assertNotNull(outputImage);
+		
+		Main.writeOutputImage(outputImage, params);
+	}
 }
