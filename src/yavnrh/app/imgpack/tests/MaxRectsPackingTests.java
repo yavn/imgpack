@@ -25,9 +25,9 @@ import org.junit.Test;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.ImagePackingException;
-import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
+import yavnrh.app.imgpack.packing.image.MockImage;
 
 public class MaxRectsPackingTests {
 	
@@ -38,7 +38,7 @@ public class MaxRectsPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 90, 120));
+		ip.addImage(new MockImage("mock1", 90, 120));
 		
 		ip.pack();
 
@@ -55,9 +55,9 @@ public class MaxRectsPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 40, 70));
-		ip.addImage(Image.mock("mock2", 70, 70));
-		ip.addImage(Image.mock("mock3", 90, 50));
+		ip.addImage(new MockImage("mock1", 40, 70));
+		ip.addImage(new MockImage("mock2", 70, 70));
+		ip.addImage(new MockImage("mock3", 90, 50));
 		
 		ip.pack();
 
@@ -76,11 +76,11 @@ public class MaxRectsPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 32, 100));
-		ip.addImage(Image.mock("mock2", 16, 90));
-		ip.addImage(Image.mock("mock3", 20, 70));
-		ip.addImage(Image.mock("mock4", 80, 16));
-		ip.addImage(Image.mock("mock5", 70, 20));
+		ip.addImage(new MockImage("mock1", 32, 100));
+		ip.addImage(new MockImage("mock2", 16, 90));
+		ip.addImage(new MockImage("mock3", 20, 70));
+		ip.addImage(new MockImage("mock4", 80, 16));
+		ip.addImage(new MockImage("mock5", 70, 20));
 		
 		ip.pack();
 
@@ -101,8 +101,8 @@ public class MaxRectsPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 64, 128));
-		ip.addImage(Image.mock("mock1", 128, 32));
+		ip.addImage(new MockImage("mock1", 64, 128));
+		ip.addImage(new MockImage("mock1", 128, 32));
 		
 		ip.pack();
 
@@ -120,9 +120,9 @@ public class MaxRectsPackingTests {
 		params.setSpacing(6);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 40, 40));
-		ip.addImage(Image.mock("mock2", 40, 60));
-		ip.addImage(Image.mock("mock3", 100, 30));
+		ip.addImage(new MockImage("mock1", 40, 40));
+		ip.addImage(new MockImage("mock2", 40, 60));
+		ip.addImage(new MockImage("mock3", 100, 30));
 		
 		ip.pack();
 

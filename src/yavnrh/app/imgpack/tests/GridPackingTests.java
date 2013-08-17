@@ -27,8 +27,8 @@ import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.ImagePackingException;
 import yavnrh.app.imgpack.packing.GridImagePacker;
-import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
+import yavnrh.app.imgpack.packing.image.MockImage;
 
 public class GridPackingTests {
 	
@@ -39,7 +39,7 @@ public class GridPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 64, 64));
+		ip.addImage(new MockImage("mock1", 64, 64));
 		
 		ip.pack();
 
@@ -58,10 +58,10 @@ public class GridPackingTests {
 		params.setSpacing(1);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 50, 50));
-		ip.addImage(Image.mock("mock2", 48, 48));
-		ip.addImage(Image.mock("mock3", 62, 40));
-		ip.addImage(Image.mock("mock4", 30, 30));
+		ip.addImage(new MockImage("mock1", 50, 50));
+		ip.addImage(new MockImage("mock2", 48, 48));
+		ip.addImage(new MockImage("mock3", 62, 40));
+		ip.addImage(new MockImage("mock4", 30, 30));
 		
 		ip.pack();
 
@@ -81,12 +81,12 @@ public class GridPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 64, 64));
-		ip.addImage(Image.mock("mock2", 32, 32));
-		ip.addImage(Image.mock("mock3", 16, 16));
-		ip.addImage(Image.mock("mock4", 16, 16));
-		ip.addImage(Image.mock("mock5", 32, 32));
-		ip.addImage(Image.mock("mock6", 64, 64));
+		ip.addImage(new MockImage("mock1", 64, 64));
+		ip.addImage(new MockImage("mock2", 32, 32));
+		ip.addImage(new MockImage("mock3", 16, 16));
+		ip.addImage(new MockImage("mock4", 16, 16));
+		ip.addImage(new MockImage("mock5", 32, 32));
+		ip.addImage(new MockImage("mock6", 64, 64));
 		
 		ip.pack();
 
@@ -108,7 +108,7 @@ public class GridPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 128, 150));
+		ip.addImage(new MockImage("mock1", 128, 150));
 		
 		ip.pack();
 	}	
@@ -120,8 +120,8 @@ public class GridPackingTests {
 		params.setOutputHeight(128);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 70, 70));
-		ip.addImage(Image.mock("mock2", 80, 80));
+		ip.addImage(new MockImage("mock1", 70, 70));
+		ip.addImage(new MockImage("mock2", 80, 80));
 		
 		try {
 			ip.pack();

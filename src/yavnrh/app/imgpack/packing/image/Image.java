@@ -16,27 +16,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package yavnrh.app.imgpack.packing;
+package yavnrh.app.imgpack.packing.image;
 
-import yavnrh.app.imgpack.packing.image.Image;
+import java.awt.image.BufferedImage;
 
-public interface ScoringFunction {	
+import yavnrh.app.imgpack.packing.Rectangle;
+
+public abstract class Image {
+
+	protected String name;
+	protected BufferedImage image;
 	
-	int score(Rectangle rect, Image image);
+	public Image(String name) {
+		this.name = name;
+	}
+	
+	public int getWidth() {
+		return image.getWidth();
+	}
 
-	ScoringFunction BEST_SHORT_SIDE_FIT = new ScoringFunction() {
-		@Override
-		public int score(Rectangle rect, Image image) {
-			final int dx = rect.width - image.getWidth();
-			final int dy = rect.height - image.getHeight();
-			final int score = Math.min(dx, dy);
-			
-			if (score < 0) {
-				// Not enough room to fit
-				return Integer.MAX_VALUE;
-			} else {
-				return score;
-			}
-		}
-	};
+	public int getHeight() {
+		return image.getHeight();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public BufferedImage getBufferedImage() {
+		return image;
+	}
+	
+	public boolean isCropped() {
+		return false;
+	}
+	
+	public Rectangle getCropRect() {
+		return new Rectangle(0, 0, getWidth(), getHeight());
+	}
+	
 }

@@ -25,6 +25,7 @@ import java.util.List;
 
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.ImagePackingException;
+import yavnrh.app.imgpack.packing.image.Image;
 
 /**
  * MaxRects packing algorithm.

@@ -23,6 +23,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import yavnrh.app.imgpack.Parameters;
+import yavnrh.app.imgpack.packing.image.FileImage;
+import yavnrh.app.imgpack.packing.image.Image;
 
 public abstract class ImagePacker {
 
@@ -33,11 +35,11 @@ public abstract class ImagePacker {
 	}
 
 	/**
-	 * Add images specified in parameters.
+	 * Add images specified in parameters (load images from files).
 	 */
 	public void addImages() {
 		for (String imageName : params.getImages()) {
-			addImage(Image.fromFile(imageName));
+			addImage(new FileImage(imageName));
 		}
 	}
 	

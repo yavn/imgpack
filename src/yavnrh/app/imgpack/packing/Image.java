@@ -35,8 +35,9 @@ public class Image {
 	private int width;
 	private int height;
 	private BufferedImage image;
+	private Rectangle cropRect;
 	
-	private Image(String name) {
+	protected Image(String name) {
 		this.name = name;
 	}
 	
@@ -45,6 +46,7 @@ public class Image {
 		
 		image.width = width;
 		image.height = height;
+		image.cropRect = new Rectangle(0, 0, width, height);
 		image.createMockImage();
 		
 		return image;
@@ -116,4 +118,16 @@ public class Image {
 		
 		return new Color(rgb);
 	}
+	
+	/**
+	 * Returns the smallest region of the image that contains pixels with nonzero alpha.
+	 */
+	public synchronized Rectangle getCropRect() {
+		if (cropRect == null) {
+			ImageCropper cropper = new ImageCropper(image);
+			cropRect = cropper.getCropRect();
+		}
+		return cropRect;
+	}
+
 }

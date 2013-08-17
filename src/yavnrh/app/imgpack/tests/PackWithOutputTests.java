@@ -27,9 +27,9 @@ import org.junit.Test;
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.packing.GridImagePacker;
-import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
+import yavnrh.app.imgpack.packing.image.MockImage;
 
 public class PackWithOutputTests {
 	
@@ -38,11 +38,11 @@ public class PackWithOutputTests {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
-		params.setOutputName("test_maxrects_one_image");
+		params.setOutputName("test/test_maxrects_one_image");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 90, 120));
+		ip.addImage(new MockImage("mock1", 90, 120));
 		
 		ip.pack();
 		
@@ -57,13 +57,13 @@ public class PackWithOutputTests {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
-		params.setOutputName("test_maxrects_three_images");
+		params.setOutputName("test/test_maxrects_three_images");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 40, 70));
-		ip.addImage(Image.mock("mock2", 70, 70));
-		ip.addImage(Image.mock("mock3", 90, 50));
+		ip.addImage(new MockImage("mock1", 40, 70));
+		ip.addImage(new MockImage("mock2", 70, 70));
+		ip.addImage(new MockImage("mock3", 90, 50));
 		
 		ip.pack();
 
@@ -78,15 +78,15 @@ public class PackWithOutputTests {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
-		params.setOutputName("test_maxrects_five_images");
+		params.setOutputName("test/test_maxrects_five_images");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 32, 100));
-		ip.addImage(Image.mock("mock2", 16, 90));
-		ip.addImage(Image.mock("mock3", 20, 70));
-		ip.addImage(Image.mock("mock4", 80, 16));
-		ip.addImage(Image.mock("mock5", 70, 20));
+		ip.addImage(new MockImage("mock1", 32, 100));
+		ip.addImage(new MockImage("mock2", 16, 90));
+		ip.addImage(new MockImage("mock3", 20, 70));
+		ip.addImage(new MockImage("mock4", 80, 16));
+		ip.addImage(new MockImage("mock5", 70, 20));
 		
 		ip.pack();
 
@@ -101,21 +101,21 @@ public class PackWithOutputTests {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
-		params.setOutputName("test_maxrects_many_images");
+		params.setOutputName("test/test_maxrects_many_images");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 32, 32));
-		ip.addImage(Image.mock("mock2", 16, 16));
-		ip.addImage(Image.mock("mock3", 24, 48));
-		ip.addImage(Image.mock("mock4", 50, 30));
-		ip.addImage(Image.mock("mock5", 90, 30));
-		ip.addImage(Image.mock("mock6", 35, 70));
-		ip.addImage(Image.mock("mock7", 8, 67));
-		ip.addImage(Image.mock("mock8", 75, 24));
-		ip.addImage(Image.mock("mock9", 27, 32));
-		ip.addImage(Image.mock("mock10", 20, 35));
-		ip.addImage(Image.mock("mock11", 25, 40));
+		ip.addImage(new MockImage("mock1", 32, 32));
+		ip.addImage(new MockImage("mock2", 16, 16));
+		ip.addImage(new MockImage("mock3", 24, 48));
+		ip.addImage(new MockImage("mock4", 50, 30));
+		ip.addImage(new MockImage("mock5", 90, 30));
+		ip.addImage(new MockImage("mock6", 35, 70));
+		ip.addImage(new MockImage("mock7", 8, 67));
+		ip.addImage(new MockImage("mock8", 75, 24));
+		ip.addImage(new MockImage("mock9", 27, 32));
+		ip.addImage(new MockImage("mock10", 20, 35));
+		ip.addImage(new MockImage("mock11", 25, 40));
 		
 		ip.pack();
 
@@ -132,13 +132,13 @@ public class PackWithOutputTests {
 		params.setOutputHeight(128);
 		params.setBorder(14);
 		params.setSpacing(6);
-		params.setOutputName("test_maxrects_border_spacing");
+		params.setOutputName("test/test_maxrects_border_spacing");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 40, 40));
-		ip.addImage(Image.mock("mock2", 40, 60));
-		ip.addImage(Image.mock("mock3", 100, 30));
+		ip.addImage(new MockImage("mock1", 40, 40));
+		ip.addImage(new MockImage("mock2", 40, 60));
+		ip.addImage(new MockImage("mock3", 100, 30));
 		
 		ip.pack();
 
@@ -153,16 +153,16 @@ public class PackWithOutputTests {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
-		params.setOutputName("test_grid_two_rows");
+		params.setOutputName("test/test_grid_two_rows");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 64, 64));
-		ip.addImage(Image.mock("mock2", 32, 32));
-		ip.addImage(Image.mock("mock3", 32, 16));
-		ip.addImage(Image.mock("mock4", 32, 16));
-		ip.addImage(Image.mock("mock5", 32, 32));
-		ip.addImage(Image.mock("mock6", 64, 64));
+		ip.addImage(new MockImage("mock1", 64, 64));
+		ip.addImage(new MockImage("mock2", 32, 32));
+		ip.addImage(new MockImage("mock3", 32, 16));
+		ip.addImage(new MockImage("mock4", 32, 16));
+		ip.addImage(new MockImage("mock5", 32, 32));
+		ip.addImage(new MockImage("mock6", 64, 64));
 		
 		ip.pack();
 
@@ -179,26 +179,26 @@ public class PackWithOutputTests {
 		params.setOutputHeight(128);
 		params.setBorder(10);
 		params.setSpacing(4);
-		params.setOutputName("test_grid_tilemap");
+		params.setOutputName("test/test_grid_tilemap");
 		params.setOverwriteOutput(true);
 		
 		ImagePacker ip = new GridImagePacker(params);
-		ip.addImage(Image.mock("mock1", 24, 24));
-		ip.addImage(Image.mock("mock2", 24, 24));
-		ip.addImage(Image.mock("mock3", 24, 24));
-		ip.addImage(Image.mock("mock4", 24, 24));
-		ip.addImage(Image.mock("mock5", 24, 24));
-		ip.addImage(Image.mock("mock6", 24, 24));
-		ip.addImage(Image.mock("mock7", 24, 24));
-		ip.addImage(Image.mock("mock8", 24, 24));
-		ip.addImage(Image.mock("mock9", 24, 24));
-		ip.addImage(Image.mock("mock10", 24, 24));
-		ip.addImage(Image.mock("mock11", 24, 24));
-		ip.addImage(Image.mock("mock12", 24, 24));
-		ip.addImage(Image.mock("mock13", 24, 24));
-		ip.addImage(Image.mock("mock14", 24, 24));
-		ip.addImage(Image.mock("mock15", 24, 24));
-		ip.addImage(Image.mock("mock16", 24, 24));
+		ip.addImage(new MockImage("mock1", 24, 24));
+		ip.addImage(new MockImage("mock2", 24, 24));
+		ip.addImage(new MockImage("mock3", 24, 24));
+		ip.addImage(new MockImage("mock4", 24, 24));
+		ip.addImage(new MockImage("mock5", 24, 24));
+		ip.addImage(new MockImage("mock6", 24, 24));
+		ip.addImage(new MockImage("mock7", 24, 24));
+		ip.addImage(new MockImage("mock8", 24, 24));
+		ip.addImage(new MockImage("mock9", 24, 24));
+		ip.addImage(new MockImage("mock10", 24, 24));
+		ip.addImage(new MockImage("mock11", 24, 24));
+		ip.addImage(new MockImage("mock12", 24, 24));
+		ip.addImage(new MockImage("mock13", 24, 24));
+		ip.addImage(new MockImage("mock14", 24, 24));
+		ip.addImage(new MockImage("mock15", 24, 24));
+		ip.addImage(new MockImage("mock16", 24, 24));
 		
 		ip.pack();
 

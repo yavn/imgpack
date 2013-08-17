@@ -18,6 +18,8 @@
 
 package yavnrh.app.imgpack.packing;
 
+import yavnrh.app.imgpack.packing.image.Image;
+
 public class ScoredPlacement implements Comparable<ScoredPlacement> {
 	
 	public final Image image;

@@ -18,6 +18,8 @@
 
 package yavnrh.app.imgpack.packing;
 
+import yavnrh.app.imgpack.packing.image.Image;
+
 public class PackedImage {
 	
 	/** Rectangle into which the image was packed. */

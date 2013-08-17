@@ -28,6 +28,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import yavnrh.app.imgpack.exception.ImagePackingException;
+import yavnrh.app.imgpack.packing.GridImagePacker;
 import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
 
@@ -50,8 +51,7 @@ public class Main {
 	private static ImagePacker getImagePacker(Parameters params) {
 		switch (params.getMethod()) {
 		case GRID:
-			// TODO not yet implemented...
-			break;
+			return new GridImagePacker(params);
 			
 		case MAX_RECTS:
 			return new MaxRectsImagePacker(params);
