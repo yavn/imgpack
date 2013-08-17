@@ -68,12 +68,11 @@ public class GridImagePacker extends ImagePacker {
 	@Override
 	public void pack() {
 		packedImages.clear();
-		imagesToPack.clear();
 		insertX = params.getBorder();
 		insertY = params.getBorder();
 		rowHeight = 0;
 		
-		imagesToPack.addAll(images);
+		prepareCroppedImagesIfNeeded(images, imagesToPack);
 		
 		while (thereAreImagesToPack()) {
 			Image image = getNextImage();

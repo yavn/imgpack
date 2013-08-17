@@ -127,7 +127,7 @@ public class Parameters {
 		crop = b;
 	}
 	
-	public boolean getCrop() {
+	public boolean getCropEnabled() {
 		return crop;
 	}
 	

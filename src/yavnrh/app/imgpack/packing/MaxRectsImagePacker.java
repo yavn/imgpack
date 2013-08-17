@@ -78,12 +78,11 @@ public class MaxRectsImagePacker extends ImagePacker {
 
 	@Override
 	public void pack() {
-		imagesToPack.clear();
 		packedImages.clear();
 		freeRects.clear();
 		imagePlacementScores.clear();
 		
-		imagesToPack.addAll(images);		
+		prepareCroppedImagesIfNeeded(images, imagesToPack);		
 		addInitialFreeRect();
 
 		while (thereAreImagesToPack()) {
@@ -96,7 +95,7 @@ public class MaxRectsImagePacker extends ImagePacker {
 			removeRedundantFreeRects();
 		}
 	}
-
+	
 	private void addInitialFreeRect() {
 		final int border = params.getBorder();
 		final int width = Math.max(0, params.getOutputWidth() - border);

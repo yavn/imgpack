@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import yavnrh.app.imgpack.Parameters;
+import yavnrh.app.imgpack.packing.image.CroppedImage;
 import yavnrh.app.imgpack.packing.image.FileImage;
 import yavnrh.app.imgpack.packing.image.Image;
 
@@ -86,6 +87,18 @@ public abstract class ImagePacker {
 		return outputImage;
 	}
 	
+	protected void prepareCroppedImagesIfNeeded(List<Image> inputImages, List<Image> outputImages) {
+		outputImages.clear();
+
+		if (params.getCropEnabled()) {
+			for (Image image : inputImages) {
+				outputImages.add(CroppedImage.from(image));
+			}			
+		} else {
+			outputImages.addAll(inputImages);
+		}
+	}
+		
 	public abstract List<PackedImage> getPackedImages();
 	public abstract void addImage(Image image);
 	public abstract void pack();

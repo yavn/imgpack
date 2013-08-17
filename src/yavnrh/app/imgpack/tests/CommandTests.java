@@ -197,14 +197,14 @@ public class CommandTests {
 	public void testCrop() {
 		runWithCommandLine("-crop");
 		
-		assertTrue(params.getCrop());
+		assertTrue(params.getCropEnabled());
 	}
 
 	@Test
 	public void testCropShouldBeFalseByDefault() {
 		runWithCommandLine("");
 		
-		assertFalse(params.getCrop());
+		assertFalse(params.getCropEnabled());
 	}
 	
 	@Test

@@ -23,6 +23,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import yavnrh.app.imgpack.Main;
+import yavnrh.app.imgpack.Parameters;
+import yavnrh.app.imgpack.packing.GridImagePacker;
+import yavnrh.app.imgpack.packing.ImagePacker;
+import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
 import yavnrh.app.imgpack.packing.image.CroppedImage;
 import yavnrh.app.imgpack.packing.image.FileImage;
 import yavnrh.app.imgpack.packing.image.Image;
@@ -54,5 +59,41 @@ public class ImageCroppingTests {
 		
 		assertTrue(image == cropped);
 	}
+	
+	@Test
+	public void testPackUsingGridCroppedImageThatWouldNotFitOtherwise() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(80);
+		params.setOutputHeight(80);
+		params.setCrop(true);
+		
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(new FileImage("test/crop_alot_face.png"));
+		
+		ip.pack();
 
+		String expected = Main.concatenate(
+				"{0, 0, 64, 59} : test/crop_alot_face.png\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}
+
+	@Test
+	public void testPackUsingMaxRectsCroppedImageThatWouldNotFitOtherwise() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(80);
+		params.setOutputHeight(80);
+		params.setCrop(true);
+		
+		ImagePacker ip = new MaxRectsImagePacker(params);
+		ip.addImage(new FileImage("test/crop_alot_face.png"));
+		
+		ip.pack();
+
+		String expected = Main.concatenate(
+				"{0, 0, 64, 59} : test/crop_alot_face.png\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}
+	
 }
