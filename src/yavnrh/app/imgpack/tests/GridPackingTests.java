@@ -19,17 +19,18 @@
 package yavnrh.app.imgpack.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
 import yavnrh.app.imgpack.exception.ImagePackingException;
+import yavnrh.app.imgpack.packing.GridImagePacker;
 import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
-import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
 
-public class MaxRectsPackingTests {
+public class GridPackingTests {
 	
 	@Test
 	public void testPackOneImage() {
@@ -37,101 +38,99 @@ public class MaxRectsPackingTests {
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
 		
-		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 90, 120));
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 64, 64));
 		
 		ip.pack();
 
 		String expected = Main.concatenate(
-				"{0, 0, 90, 120} : mock1\n");
-		
-		assertEquals(expected, ip.dumpRegions());
-	}
-
-	@Test
-	public void testPackThreeImages() {
-		Parameters params = new Parameters();
-		params.setOutputWidth(128);
-		params.setOutputHeight(128);
-		
-		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 40, 70));
-		ip.addImage(Image.mock("mock2", 70, 70));
-		ip.addImage(Image.mock("mock3", 90, 50));
-		
-		ip.pack();
-
-		String expected = Main.concatenate(
-				"{0, 0, 90, 50} : mock3\n",
-				"{0, 50, 40, 70} : mock1\n",
-				"{40, 50, 70, 70} : mock2\n");
+				"{0, 0, 64, 64} : mock1\n");
 		
 		assertEquals(expected, ip.dumpRegions());
 	}
 	
 	@Test
-	public void testPackFiveImages() {
+	public void testPackFourImages() {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
+		params.setBorder(3);
+		params.setSpacing(1);
 		
-		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 32, 100));
-		ip.addImage(Image.mock("mock2", 16, 90));
-		ip.addImage(Image.mock("mock3", 20, 70));
-		ip.addImage(Image.mock("mock4", 80, 16));
-		ip.addImage(Image.mock("mock5", 70, 20));
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 50, 50));
+		ip.addImage(Image.mock("mock2", 48, 48));
+		ip.addImage(Image.mock("mock3", 62, 40));
+		ip.addImage(Image.mock("mock4", 30, 30));
 		
 		ip.pack();
 
 		String expected = Main.concatenate(
-				"{0, 0, 32, 100} : mock1\n",
-				"{0, 100, 70, 20} : mock5\n",
-				"{32, 0, 16, 90} : mock2\n",
-				"{48, 0, 80, 16} : mock4\n",
-				"{48, 16, 20, 70} : mock3\n");
+				"{3, 3, 50, 50} : mock1\n",
+				"{54, 3, 48, 48} : mock2\n",
+				"{3, 54, 62, 40} : mock3\n",
+				"{66, 54, 30, 30} : mock4\n");
+		
+		assertEquals(expected, ip.dumpRegions());
+	}	
+
+	@Test
+	public void testPackSeveralImages() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 64, 64));
+		ip.addImage(Image.mock("mock2", 32, 32));
+		ip.addImage(Image.mock("mock3", 16, 16));
+		ip.addImage(Image.mock("mock4", 16, 16));
+		ip.addImage(Image.mock("mock5", 32, 32));
+		ip.addImage(Image.mock("mock6", 64, 64));
+		
+		ip.pack();
+
+		String expected = Main.concatenate(
+				"{0, 0, 64, 64} : mock1\n",
+				"{64, 0, 32, 32} : mock2\n",
+				"{96, 0, 16, 16} : mock3\n",
+				"{112, 0, 16, 16} : mock4\n",
+				"{0, 64, 32, 32} : mock5\n",
+				"{32, 64, 64, 64} : mock6\n");
 		
 		assertEquals(expected, ip.dumpRegions());
 	}
 	
 	@Test(expected = ImagePackingException.class)
-	public void testPackImagesThatDontFit() {
+	public void testPackImageThatIsTooBig() {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
 		
-		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 64, 128));
-		ip.addImage(Image.mock("mock1", 128, 32));
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 128, 150));
 		
 		ip.pack();
+	}	
 
-		String expected = Main.concatenate("");
-		
-		assertEquals(expected, ip.dumpRegions());
-	}
-	
 	@Test
-	public void testPackImagesWithBorderAndSpacing() {
+	public void testPackTooManyImages() {
 		Parameters params = new Parameters();
 		params.setOutputWidth(128);
 		params.setOutputHeight(128);
-		params.setBorder(14);
-		params.setSpacing(6);
 		
-		ImagePacker ip = new MaxRectsImagePacker(params);
-		ip.addImage(Image.mock("mock1", 40, 40));
-		ip.addImage(Image.mock("mock2", 40, 60));
-		ip.addImage(Image.mock("mock3", 100, 30));
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 70, 70));
+		ip.addImage(Image.mock("mock2", 80, 80));
 		
-		ip.pack();
+		try {
+			ip.pack();
+		} catch (ImagePackingException ex) {
+			assertEquals("Not enough space to pack mock2", ex.getMessage());
+			return;
+		}
+		
+		fail("Did not throw correct exception");
+	}	
 
-		String expected = Main.concatenate(
-				"{14, 14, 100, 30} : mock3\n",
-				"{14, 50, 40, 60} : mock2\n",
-				"{60, 50, 40, 40} : mock1\n");
-		
-		assertEquals(expected, ip.dumpRegions());
-	}
-	
 }

@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import yavnrh.app.imgpack.Main;
 import yavnrh.app.imgpack.Parameters;
+import yavnrh.app.imgpack.packing.GridImagePacker;
 import yavnrh.app.imgpack.packing.Image;
 import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
@@ -138,6 +139,66 @@ public class PackWithOutputTests {
 		ip.addImage(Image.mock("mock1", 40, 40));
 		ip.addImage(Image.mock("mock2", 40, 60));
 		ip.addImage(Image.mock("mock3", 100, 30));
+		
+		ip.pack();
+
+		BufferedImage outputImage = ip.getOutputImage();
+		assertNotNull(outputImage);
+		
+		Main.writeOutputImage(outputImage, params);
+	}
+	
+	@Test
+	public void testPackTwoRowsWithGridAlgorithm() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		params.setOutputName("test_grid_two_rows");
+		params.setOverwriteOutput(true);
+		
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 64, 64));
+		ip.addImage(Image.mock("mock2", 32, 32));
+		ip.addImage(Image.mock("mock3", 32, 16));
+		ip.addImage(Image.mock("mock4", 32, 16));
+		ip.addImage(Image.mock("mock5", 32, 32));
+		ip.addImage(Image.mock("mock6", 64, 64));
+		
+		ip.pack();
+
+		BufferedImage outputImage = ip.getOutputImage();
+		assertNotNull(outputImage);
+		
+		Main.writeOutputImage(outputImage, params);
+	}	
+	
+	@Test
+	public void testPackTilemapWithGridAlgorithm() {
+		Parameters params = new Parameters();
+		params.setOutputWidth(128);
+		params.setOutputHeight(128);
+		params.setBorder(10);
+		params.setSpacing(4);
+		params.setOutputName("test_grid_tilemap");
+		params.setOverwriteOutput(true);
+		
+		ImagePacker ip = new GridImagePacker(params);
+		ip.addImage(Image.mock("mock1", 24, 24));
+		ip.addImage(Image.mock("mock2", 24, 24));
+		ip.addImage(Image.mock("mock3", 24, 24));
+		ip.addImage(Image.mock("mock4", 24, 24));
+		ip.addImage(Image.mock("mock5", 24, 24));
+		ip.addImage(Image.mock("mock6", 24, 24));
+		ip.addImage(Image.mock("mock7", 24, 24));
+		ip.addImage(Image.mock("mock8", 24, 24));
+		ip.addImage(Image.mock("mock9", 24, 24));
+		ip.addImage(Image.mock("mock10", 24, 24));
+		ip.addImage(Image.mock("mock11", 24, 24));
+		ip.addImage(Image.mock("mock12", 24, 24));
+		ip.addImage(Image.mock("mock13", 24, 24));
+		ip.addImage(Image.mock("mock14", 24, 24));
+		ip.addImage(Image.mock("mock15", 24, 24));
+		ip.addImage(Image.mock("mock16", 24, 24));
 		
 		ip.pack();
 
