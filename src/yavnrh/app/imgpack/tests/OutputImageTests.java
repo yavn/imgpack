@@ -31,7 +31,7 @@ import yavnrh.app.imgpack.packing.ImagePacker;
 import yavnrh.app.imgpack.packing.MaxRectsImagePacker;
 import yavnrh.app.imgpack.packing.image.MockImage;
 
-public class PackWithOutputTests {
+public class OutputImageTests {
 	
 	@Test
 	public void testPackOneImage() {

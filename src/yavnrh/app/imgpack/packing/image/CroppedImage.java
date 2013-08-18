@@ -6,6 +6,8 @@ import yavnrh.app.imgpack.packing.Rectangle;
 public class CroppedImage extends Image {
 
 	private Rectangle cropRect;
+	private int originalWidth;
+	private int originalHeight;
 	
 	private CroppedImage(String name) {
 		super(name);
@@ -29,6 +31,8 @@ public class CroppedImage extends Image {
 			CroppedImage croppedImage = new CroppedImage(image.name);
 			croppedImage.image = image.image.getSubimage(cropRect.x, cropRect.y, cropRect.width, cropRect.height);
 			croppedImage.cropRect = cropRect;
+			croppedImage.originalWidth = image.image.getWidth();
+			croppedImage.originalHeight = image.image.getHeight();
 			
 			return croppedImage;
 		}		
@@ -44,4 +48,14 @@ public class CroppedImage extends Image {
 		return cropRect;
 	}
 
+	@Override
+	public int getFullWidth() {
+		return originalWidth;
+	}
+	
+	@Override
+	public int getFullHeight() {
+		return originalHeight;
+	}
+	
 }

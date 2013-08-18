@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import javax.imageio.ImageIO;
 
@@ -44,6 +45,9 @@ public class Main {
 			ip.addImages();
 			ip.pack();
 			
+			PackedImagesSerializer serializer = new PackedImagesSerializer(params, ip.getPackedImages());
+			
+			writeOutputJSON(serializer.getString(), params);
 			writeOutputImage(ip.getOutputImage(), params);
 		}
 	}
@@ -74,6 +78,23 @@ public class Main {
 			
 		} catch (FileNotFoundException ex) {
 			throw new RuntimeException(ex);
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	public static void writeOutputJSON(String contents, Parameters params) {
+		try {
+			File file = new File(params.getOutputName() + ".json");
+			
+			if (file.exists() && !params.getOverwriteOutput()) {
+				throw new RuntimeException("File " + file.getName() + " exists. Will not overwrite.");
+			}
+			
+			OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(file));
+			output.write(contents);
+			output.close();
+			
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}

@@ -55,4 +55,12 @@ public abstract class Image {
 		return new Rectangle(0, 0, getWidth(), getHeight());
 	}
 	
+	public int getFullWidth() {
+		return image.getWidth();
+	}
+	
+	public int getFullHeight() {
+		return image.getHeight();
+	}
+	
 }
