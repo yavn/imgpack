@@ -44,15 +44,29 @@ public class PackedImagesSerializer {
 	private List<PackedImage> packedImages;
 	
 	private StringBuilder out;
+	private int indentation;
+	private int indentationLevelSize;
+	private String space;
+	private String newline;
+	private StringBuilder spaceBuffer;
 	
 	
 	public PackedImagesSerializer(Parameters params, List<PackedImage> packedImages) {
 		this.params = params;
 		this.packedImages = packedImages;
+		spaceBuffer = new StringBuilder(32);
 	}
 	
 	public String getString() {
+		return getString(0);
+	}
+	
+	public String getString(int indentationSize) {
 		out = new StringBuilder();
+		indentationLevelSize = indentationSize;
+		indentation = 0;
+		space = (indentationSize > 0) ? " " : "";
+		newline = (indentationSize > 0) ? "\n" : "";
 		
 		beginDictionary();
 		{
@@ -125,42 +139,73 @@ public class PackedImagesSerializer {
 			}
 		}
 	}
+	
+	private void putKey(String key) {
+		out.append(indent());
+		out.append(String.format("\"%s\":%s", key, space));
+	}
 
 	private void putKeyValue(String key, int value) {
-		out.append(String.format("\"%s\":%d", key, value));
+		out.append(indent());
+		out.append(String.format("\"%s\":%s%d", key, space, value));
 	}
 
 	private void putKeyValue(String key, String value) {
-		out.append(String.format("\"%s\":\"%s\"", key, value));
+		out.append(indent());
+		out.append(String.format("\"%s\":%s\"%s\"", key, space, value));
 	}
 
 	private void putKeyValue(String key, boolean value) {
 		String booleanValue = value ? "true" : "false";
-		out.append(String.format("\"%s\":%s", key, booleanValue));
+		out.append(indent());
+		out.append(String.format("\"%s\":%s%s", key, space, booleanValue));
 	}
 
 	private void beginDictionary() {
+		out.append(indent());
 		out.append("{");
+		out.append(newline);
+		
+		indentation += indentationLevelSize;
 	}
 
 	private void endDictionary() {
-		out.append("}");
+		indentation -= indentationLevelSize;
+
+		out.append(newline);
+		out.append(indent());
+		out.append("}");		
 	}
 		
-	private void putKey(String key) {
-		out.append(String.format("\"%s\":", key));
-	}
-	
 	private void nextItem() {
 		out.append(",");
+		out.append(newline);
 	}
 
 	private void beginArray() {
 		out.append("[");
+		out.append(newline);
+		
+		indentation += indentationLevelSize;
 	}
 
 	private void endArray() {
+		indentation -= indentationLevelSize;
+
+		out.append(newline);
+		out.append(indent());
 		out.append("]");
 	}
 
+	private String indent() {
+		if (indentationLevelSize > 0) {
+			while (spaceBuffer.length() < indentation) {
+				spaceBuffer.append(" ");
+			}
+			return spaceBuffer.substring(0, indentation);
+			
+		} else {
+			return "";
+		}
+	}
 }

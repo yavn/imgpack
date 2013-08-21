@@ -47,7 +47,7 @@ public class Main {
 			
 			PackedImagesSerializer serializer = new PackedImagesSerializer(params, ip.getPackedImages());
 			
-			writeOutputJSON(serializer.getString(), params);
+			writeOutputJSON(serializer.getString(2), params);
 			writeOutputImage(ip.getOutputImage(), params);
 		}
 	}
